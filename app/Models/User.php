@@ -58,4 +58,44 @@ class User extends Authenticatable
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+
+    /**
+     * Check if the user is a super admin.
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super-admin';
+    }
+
+    /**
+     * Check if the user is an admin.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if the user is a barangay official.
+     */
+    public function isBarangayOfficial(): bool
+    {
+        return $this->role === 'barangay-official';
+    }
+
+    /**
+     * Check if the user is a resident.
+     */
+    public function isResident(): bool
+    {
+        return $this->role === 'resident';
+    }
+
+    /**
+     * Generic role checker.
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
 }
