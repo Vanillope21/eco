@@ -21,7 +21,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            BarangaySeeder::class,
+            RolesTableSeeder::class,
+            WasteTypesTableSeeder::class,
+            DaysOfWeekTableSeeder::class,
+            RequestStatusesTableSeeder::class,
+            BarangayStatusesTableSeeder::class,
         ]);
     }
 }
