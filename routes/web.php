@@ -87,20 +87,24 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
     // Role-based dashboards
-    Route::get('super-admin/dashboard', \App\Livewire\SuperAdmin\Dashboard::class)
-        ->middleware(['auth', 'role:super-admin'])
+    Route::get('super-admin/dashboard', App\Livewire\SuperAdmin\Dashboard::class)
+        ->middleware('auth')
+        ->middleware(\App\Http\Middleware\RoleMiddleware::class.':super-admin')
         ->name('superadmin.dashboard');
 
-    Route::get('admin/dashboard', \App\Livewire\Admin\Dashboard::class)
-        ->middleware(['auth', 'role:admin'])
+    Route::get('admin/dashboard', App\Livewire\Admin\Dashboard::class)
+        ->middleware('auth')
+        ->middleware(\App\Http\Middleware\RoleMiddleware::class.':admin')
         ->name('admin.dashboard');
 
-    Route::get('barangay/dashboard', \App\Livewire\Barangay\Dashboard::class)
-        ->middleware(['auth', 'role:barangay-official'])
+    Route::get('barangay/dashboard', App\Livewire\Barangay\Dashboard::class)
+        ->middleware('auth')
+        ->middleware(\App\Http\Middleware\RoleMiddleware::class.':barangay-official')
         ->name('barangay.dashboard');
 
-    Route::get('resident/dashboard', \App\Livewire\Resident\Dashboard::class)
-        ->middleware(['auth', 'role:resident'])
+    Route::get('resident/dashboard', App\Livewire\Resident\Dashboard::class)
+        ->middleware('auth')
+        ->middleware(\App\Http\Middleware\RoleMiddleware::class.':resident')
         ->name('resident.dashboard');
 });
 
