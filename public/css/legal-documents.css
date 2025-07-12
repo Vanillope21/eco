@@ -1,0 +1,320 @@
+/* Legal Documents CSS - For Privacy Policy and Terms & Conditions */
+
+body {
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    margin: 40px auto;
+    max-width: 900px;
+    line-height: 1.7;
+    color: #2C3E50;
+    background: #E8F5E9;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(76, 175, 80, 0.1);
+}
+
+h1 {
+    color: #2E7D32;
+    font-size: 3em;
+    margin-bottom: 0.5em;
+    border-bottom: 4px solid #4CAF50;
+    padding-bottom: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #1B5E20;
+    margin-top: 2em;
+    font-size: 1.9em;
+    border-left: 8px solid #388E3C;
+    padding-left: 15px;
+    font-weight: 600;
+    background: linear-gradient(to right, rgba(76, 175, 80, 0.1), transparent);
+    padding: 10px 15px;
+    border-radius: 0 10px 10px 0;
+}
+
+p {
+    margin-bottom: 20px;
+    font-size: 1.15em;
+    color: #37474F;
+    padding: 0 15px;
+}
+
+a {
+    color: #2E7D32;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #4CAF50;
+    text-decoration: underline;
+}
+
+br {
+    line-height: 2;
+}
+
+/* List styling for better readability */
+p br + br {
+    content: "";
+    display: block;
+    margin-top: 10px;
+}
+
+/* Add icons before list items */
+p br + text {
+    position: relative;
+    padding-left: 20px;
+}
+
+p br + text:before {
+    content: "•";
+    color: #4CAF50;
+    position: absolute;
+    left: 0;
+}
+
+/* Container styling */
+.container {
+    background: #FFFFFF;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+/* Last updated date styling */
+p:nth-of-type(1) {
+    color: #689F38;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Contact information section styling */
+h2:last-of-type {
+    margin-top: 3em;
+    border-left: none;
+    background: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+h2:last-of-type + p {
+    background: #F1F8E9;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #A5D6A7;
+}
+
+/* Additional styling for paragraphs */
+.paragraph {
+    text-align: justify;
+    margin-bottom: 1.5em;
+    line-height: 1.8;
+}
+
+.section-content {
+    text-align: justify;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    margin: 15px 0;
+    line-height: 1.8;
+}
+
+.numbered-section {
+    margin-bottom: 30px;
+}
+
+.legal-notice {
+    font-style: italic;
+    color: #1B5E20;
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: 8px;
+}
+
+.subsection {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.definition {
+    font-style: italic;
+    color: #2E7D32;
+    margin: 10px 0;
+}
+
+/* Override Tailwind styles for legal document pages */
+.legal-document-page {
+    background: #E8F5E9 !important;
+    color: #2C3E50 !important;
+}
+
+.legal-document-page h1 {
+    color: #2E7D32 !important;
+    font-size: 3em !important;
+    margin-bottom: 0.5em !important;
+    border-bottom: 4px solid #4CAF50 !important;
+    padding-bottom: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    text-align: center !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.legal-document-page h2 {
+    color: #1B5E20 !important;
+    margin-top: 2em !important;
+    font-size: 1.9em !important;
+    border-left: 8px solid #388E3C !important;
+    padding-left: 15px !important;
+    font-weight: 600 !important;
+    background: linear-gradient(to right, rgba(76, 175, 80, 0.1), transparent) !important;
+    padding: 10px 15px !important;
+    border-radius: 0 10px 10px 0 !important;
+}
+
+.legal-document-page p {
+    margin-bottom: 20px !important;
+    font-size: 1.15em !important;
+    color: #37474F !important;
+    padding: 0 15px !important;
+}
+
+.legal-document-page a {
+    color: #2E7D32 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+}
+
+.legal-document-page a:hover {
+    color: #4CAF50 !important;
+    text-decoration: underline !important;
+}
+
+/* Hide Tailwind navigation and footer for legal document pages */
+.legal-document-page nav,
+.legal-document-page footer {
+    display: none !important;
+}
+
+/* Custom styling for the main content area */
+.legal-content {
+    background: #FFFFFF;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.legal-content h2:last-of-type {
+    margin-top: 3em !important;
+    border-left: none !important;
+    background: #4CAF50 !important;
+    color: white !important;
+    padding: 15px !important;
+    border-radius: 10px !important;
+    text-align: center !important;
+}
+
+.legal-content h2:last-of-type + p {
+    background: #F1F8E9 !important;
+    padding: 20px !important;
+    border-radius: 10px !important;
+    border: 1px solid #A5D6A7 !important;
+}
+
+/* Back Button Styling */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #4CAF50;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    background: #388E3C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.back-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+    body {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 95%;
+    }
+    
+    h1 {
+        font-size: 2.5em;
+    }
+    
+    h2 {
+        font-size: 1.6em;
+    }
+    
+    p {
+        font-size: 1.1em;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        margin: 10px auto;
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    h2 {
+        font-size: 1.4em;
+    }
+    
+    p {
+        font-size: 1em;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+} 

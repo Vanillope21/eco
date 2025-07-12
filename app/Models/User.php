@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'barangay_id',
     ];
 
     /**
@@ -97,5 +99,29 @@ class User extends Authenticatable
     public function hasRole(string $role): bool
     {
         return $this->role === $role;
+    }
+
+    /**
+     * Get the barangay that the user belongs to.
+     */
+    public function barangay()
+    {
+        return $this->belongsTo(Barangay::class);
+    }
+
+    /**
+     * Get the household requests processed by this user.
+     */
+    public function processedHouseholdRequests()
+    {
+        return $this->hasMany(HouseholdRequest::class, 'processed_by');
+    }
+
+    /**
+     * Get the household requests created by this user.
+     */
+    public function createdHouseholdRequests()
+    {
+        return $this->hasMany(HouseholdRequest::class, 'created_user_id');
     }
 }
