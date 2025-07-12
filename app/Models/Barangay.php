@@ -37,4 +37,9 @@ class Barangay extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }
