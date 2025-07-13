@@ -7,6 +7,10 @@ use App\Models\User;
 use App\Models\Barangay;
 use App\Models\Schedule;
 use App\Models\HouseholdRequest;
+use App\Models\Role;
+use App\Models\RequestStatus;
+use App\Models\WasteType;
+use App\Models\DayOfWeek;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -40,24 +44,31 @@ class Dashboard extends Component
         $this->totalSchedules = Schedule::count();
         $this->totalRequests = HouseholdRequest::count();
         
-        // Request status counts
-        $this->pendingRequests = HouseholdRequest::where('request_status', 'pending')->count();
-        $this->approvedRequests = HouseholdRequest::where('request_status', 'approved')->count();
-        $this->rejectedRequests = HouseholdRequest::where('request_status', 'rejected')->count();
+        // Request status counts using foreign keys
+        $pendingStatus = RequestStatus::where('name', 'pending')->first();
+        $approvedStatus = RequestStatus::where('name', 'approved')->first();
+        $rejectedStatus = RequestStatus::where('name', 'rejected')->first();
+        
+        $this->pendingRequests = HouseholdRequest::where('request_status_id', $pendingStatus->id ?? 1)->count();
+        $this->approvedRequests = HouseholdRequest::where('request_status_id', $approvedStatus->id ?? 2)->count();
+        $this->rejectedRequests = HouseholdRequest::where('request_status_id', $rejectedStatus->id ?? 3)->count();
         
         // Barangay status counts
         $this->activeBarangays = Barangay::where('status', 'active')->count();
         $this->inactiveBarangays = Barangay::where('status', 'inactive')->count();
         
-        // User role statistics
-        $this->userRoleStats = User::select('role', DB::raw('count(*) as count'))
-            ->groupBy('role')
+        // User role statistics using foreign keys
+        $this->userRoleStats = User::with('role')
+            ->select('role_id', DB::raw('count(*) as count'))
+            ->groupBy('role_id')
             ->get()
-            ->pluck('count', 'role')
+            ->mapWithKeys(function ($item) {
+                return [$item->role->name ?? 'unknown' => $item->count];
+            })
             ->toArray();
         
         // Recent requests
-        $this->recentRequests = HouseholdRequest::with(['barangay', 'processedBy'])
+        $this->recentRequests = HouseholdRequest::with(['barangay', 'user', 'requestStatus'])
             ->latest()
             ->take(5)
             ->get();
@@ -105,17 +116,23 @@ class Dashboard extends Component
     {
         return [
             'total' => Schedule::count(),
-            'active' => Schedule::where('status', 'active')->count(),
-            'inactive' => Schedule::where('status', 'inactive')->count(),
-            'by_waste_type' => Schedule::select('waste_type', DB::raw('count(*) as count'))
-                ->groupBy('waste_type')
+            'active' => Schedule::where('status_id', 1)->count(), // Assuming 1 = active
+            'inactive' => Schedule::where('status_id', 2)->count(), // Assuming 2 = inactive
+            'by_waste_type' => Schedule::with('wasteType')
+                ->select('waste_type_id', DB::raw('count(*) as count'))
+                ->groupBy('waste_type_id')
                 ->get()
-                ->pluck('count', 'waste_type')
+                ->mapWithKeys(function ($item) {
+                    return [$item->wasteType->name ?? 'Unknown' => $item->count];
+                })
                 ->toArray(),
-            'by_day' => Schedule::select('day_of_week', DB::raw('count(*) as count'))
-                ->groupBy('day_of_week')
+            'by_day' => Schedule::with('dayOfWeek')
+                ->select('day_of_week_id', DB::raw('count(*) as count'))
+                ->groupBy('day_of_week_id')
                 ->get()
-                ->pluck('count', 'day_of_week')
+                ->mapWithKeys(function ($item) {
+                    return [$item->dayOfWeek->name ?? 'Unknown' => $item->count];
+                })
                 ->toArray(),
         ];
     }

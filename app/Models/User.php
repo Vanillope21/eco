@@ -20,10 +20,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
-        'role',
+        'role_id',
         'barangay_id',
+        'phone_number',
+        'address',
     ];
 
     /**
@@ -62,11 +65,19 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user's role
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
      * Check if the user is a super admin.
      */
     public function isSuperAdmin(): bool
     {
-        return $this->role === 'super-admin';
+        return $this->role_id === 1; // role_id 1 = super-admin
     }
 
     /**
@@ -74,7 +85,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->role_id === 2; // role_id 2 = admin
     }
 
     /**
@@ -82,7 +93,7 @@ class User extends Authenticatable
      */
     public function isBarangayOfficial(): bool
     {
-        return $this->role === 'barangay-official';
+        return $this->role_id === 3; // role_id 3 = barangay-official
     }
 
     /**
@@ -90,15 +101,15 @@ class User extends Authenticatable
      */
     public function isResident(): bool
     {
-        return $this->role === 'resident';
+        return $this->role_id === 4; // role_id 4 = resident
     }
 
     /**
      * Generic role checker.
      */
-    public function hasRole(string $role): bool
+    public function hasRole(string $roleName): bool
     {
-        return $this->role === $role;
+        return $this->role && $this->role->name === $roleName;
     }
 
     /**
@@ -122,6 +133,6 @@ class User extends Authenticatable
      */
     public function createdHouseholdRequests()
     {
-        return $this->hasMany(HouseholdRequest::class, 'created_user_id');
+        return $this->hasMany(HouseholdRequest::class, 'user_id');
     }
 }

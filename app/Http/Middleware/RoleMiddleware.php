@@ -16,9 +16,24 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
         $user = $request->user();
-        if (! $user || (count($roles) && ! in_array($user->role, $roles))) {
+        
+        if (!$user) {
             abort(403, 'Unauthorized.');
         }
+
+        // Check if user has any of the required roles
+        $hasRole = false;
+        foreach ($roles as $roleName) {
+            if ($user->hasRole($roleName)) {
+                $hasRole = true;
+                break;
+            }
+        }
+
+        if (!$hasRole) {
+            abort(403, 'Unauthorized.');
+        }
+
         return $next($request);
     }
 }

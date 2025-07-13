@@ -13,13 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
+        // Seed lookup tables first
         $this->call([
             RolesTableSeeder::class,
             WasteTypesTableSeeder::class,
@@ -27,5 +21,12 @@ class DatabaseSeeder extends Seeder
             RequestStatusesTableSeeder::class,
             BarangayStatusesTableSeeder::class,
         ]);
+
+        // Then create users (which depend on roles)
+        $this->call([
+            UsersTableSeeder::class,
+        ]);
+
+        // User::factory(10)->create();
     }
 }

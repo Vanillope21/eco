@@ -14,11 +14,20 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('role_id')->default(1); // 1 = user (default role)
+            $table->unsignedBigInteger('barangay_id')->nullable(); // Allow null for super admin and admin
+            $table->string('phone_number')->nullable();
+            $table->text('address')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            // Foreign key constraints
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('restrict');
+            $table->foreign('barangay_id')->references('id')->on('barangays')->onDelete('set null');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
