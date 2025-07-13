@@ -15,7 +15,7 @@ use Livewire\Component;
 #[Layout('components.layouts.auth')]
 class Login extends Component
 {
-    #[Validate('required|string|email')]
+    #[Validate('required|string')]
     public string $email = '';
 
     #[Validate('required|string')]
@@ -32,18 +32,36 @@ class Login extends Component
 
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            RateLimiter::hit($this->throttleKey());
+        // Determine if input is email or username
+        $loginField = filter_var($this->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-            throw ValidationException::withMessages([
+        if (! \Illuminate\Support\Facades\Auth::attempt([
+            $loginField => $this->email,
+            'password' => $this->password
+        ], $this->remember)) {
+            \Illuminate\Support\Facades\RateLimiter::hit($this->throttleKey());
+
+            throw \Illuminate\Validation\ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
         }
 
-        RateLimiter::clear($this->throttleKey());
-        Session::regenerate();
+        \Illuminate\Support\Facades\RateLimiter::clear($this->throttleKey());
+        \Illuminate\Support\Facades\Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $redirectTo = route('dashboard', absolute: false); // default
+        if ($user->isSuperAdmin()) {
+            $redirectTo = '/super-admin/dashboard';
+        } elseif ($user->isAdmin()) {
+            $redirectTo = '/admin/dashboard';
+        } elseif ($user->isBarangayOfficial()) {
+            $redirectTo = '/barangay/dashboard';
+        } elseif ($user->isResident()) {
+            $redirectTo = '/resident/dashboard';
+        }
+
+        $this->redirectIntended(default: $redirectTo, navigate: true);
     }
 
     /**
@@ -51,7 +69,7 @@ class Login extends Component
      */
     protected function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 3)) {
             return;
         }
 
