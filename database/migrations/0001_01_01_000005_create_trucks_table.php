@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('trucks', function (Blueprint $table) {
             $table->id();
-            $table->string('truck_number')->unique();
-            $table->string('plate_number')->nullable();
+            $table->string('plate_number')->unique();
+            $table->string('model')->nullable();
             $table->decimal('capacity', 8, 2)->nullable(); // in tons
-            $table->foreignId('waste_type_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('driver_name')->nullable();
+            $table->string('contact_number')->nullable();
             $table->string('status')->default('active'); // active, maintenance, retired
-            $table->foreignId('driver_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

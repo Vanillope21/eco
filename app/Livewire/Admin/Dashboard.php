@@ -43,13 +43,21 @@ class Dashboard extends Component
         $this->totalRequests = HouseholdRequest::count();
         
         // Request status counts
-        $this->pendingRequests = HouseholdRequest::where('request_status', 'pending')->count();
-        $this->approvedRequests = HouseholdRequest::where('request_status', 'approved')->count();
-        $this->rejectedRequests = HouseholdRequest::where('request_status', 'rejected')->count();
+        $this->pendingRequests = HouseholdRequest::whereHas('requestStatus', function($q) {
+            $q->where('name', 'pending');
+        })->count();
+        $this->approvedRequests = HouseholdRequest::whereHas('requestStatus', function($q) {
+            $q->where('name', 'approved');
+        })->count();
+        $this->rejectedRequests = HouseholdRequest::whereHas('requestStatus', function($q) {
+            $q->where('name', 'rejected');
+        })->count();
         
         // Schedule status counts
-        $this->activeSchedules = Schedule::where('status', 'active')->count();
-        $this->inactiveSchedules = Schedule::where('status', 'inactive')->count();
+        $activeStatusId = \App\Models\BarangayStatus::where('name', 'active')->value('id');
+        $inactiveStatusId = \App\Models\BarangayStatus::where('name', 'inactive')->value('id');
+        $this->activeSchedules = Schedule::where('status_id', $activeStatusId)->count();
+        $this->inactiveSchedules = Schedule::where('status_id', $inactiveStatusId)->count();
         
         // Recent requests
         $this->recentRequests = HouseholdRequest::with(['barangay', 'processedBy'])
@@ -95,10 +103,12 @@ class Dashboard extends Component
                 'schedules' => Schedule::whereMonth('created_at', $date->month)
                     ->whereYear('created_at', $date->year)
                     ->count(),
-                'approvals' => HouseholdRequest::where('request_status', 'approved')
-                    ->whereMonth('processed_at', $date->month)
-                    ->whereYear('processed_at', $date->year)
-                    ->count(),
+                'approvals' => HouseholdRequest::whereHas('requestStatus', function($q) {
+                    $q->where('name', 'approved');
+                })
+                ->whereMonth('processed_at', $date->month)
+                ->whereYear('processed_at', $date->year)
+                ->count(),
             ]);
         }
         return $months;
@@ -114,19 +124,21 @@ class Dashboard extends Component
 
     private function getScheduleStats()
     {
+        $activeStatusId = \App\Models\BarangayStatus::where('name', 'active')->value('id');
+        $inactiveStatusId = \App\Models\BarangayStatus::where('name', 'inactive')->value('id');
         return [
             'total' => Schedule::count(),
-            'active' => Schedule::where('status', 'active')->count(),
-            'inactive' => Schedule::where('status', 'inactive')->count(),
-            'by_waste_type' => Schedule::select('waste_type', DB::raw('count(*) as count'))
-                ->groupBy('waste_type')
+            'active' => Schedule::where('status_id', $activeStatusId)->count(),
+            'inactive' => Schedule::where('status_id', $inactiveStatusId)->count(),
+            'by_waste_type' => Schedule::select('waste_type_id', DB::raw('count(*) as count'))
+                ->groupBy('waste_type_id')
                 ->get()
-                ->pluck('count', 'waste_type')
+                ->pluck('count', 'waste_type_id')
                 ->toArray(),
-            'by_day' => Schedule::select('day_of_week', DB::raw('count(*) as count'))
-                ->groupBy('day_of_week')
+            'by_day' => Schedule::select('day_of_week_id', DB::raw('count(*) as count'))
+                ->groupBy('day_of_week_id')
                 ->get()
-                ->pluck('count', 'day_of_week')
+                ->pluck('count', 'day_of_week_id')
                 ->toArray(),
         ];
     }
@@ -135,11 +147,19 @@ class Dashboard extends Component
     {
         return [
             'total' => HouseholdRequest::count(),
-            'pending' => HouseholdRequest::where('request_status', 'pending')->count(),
-            'approved' => HouseholdRequest::where('request_status', 'approved')->count(),
-            'rejected' => HouseholdRequest::where('request_status', 'rejected')->count(),
+            'pending' => HouseholdRequest::whereHas('requestStatus', function($q) {
+                $q->where('name', 'pending');
+            })->count(),
+            'approved' => HouseholdRequest::whereHas('requestStatus', function($q) {
+                $q->where('name', 'approved');
+            })->count(),
+            'rejected' => HouseholdRequest::whereHas('requestStatus', function($q) {
+                $q->where('name', 'rejected');
+            })->count(),
             'approval_rate' => HouseholdRequest::count() > 0 
-                ? round((HouseholdRequest::where('request_status', 'approved')->count() / HouseholdRequest::count()) * 100, 1)
+                ? round((HouseholdRequest::whereHas('requestStatus', function($q) {
+                    $q->where('name', 'approved');
+                })->count() / HouseholdRequest::count()) * 100, 1)
                 : 0,
             'avg_processing_time' => $this->getAverageProcessingTime(),
         ];
@@ -148,7 +168,9 @@ class Dashboard extends Component
     private function getAverageProcessingTime()
     {
         $processedRequests = HouseholdRequest::whereNotNull('processed_at')
-            ->where('request_status', '!=', 'pending')
+            ->whereHas('requestStatus', function($q) {
+                $q->where('name', '!=', 'pending');
+            })
             ->get();
         
         if ($processedRequests->isEmpty()) {
@@ -172,16 +194,18 @@ class Dashboard extends Component
 
     private function getScheduleDistribution()
     {
+        $activeStatusId = \App\Models\BarangayStatus::where('name', 'active')->value('id');
+        $inactiveStatusId = \App\Models\BarangayStatus::where('name', 'inactive')->value('id');
         return [
-            'by_waste_type' => Schedule::select('waste_type', DB::raw('count(*) as count'))
-                ->groupBy('waste_type')
+            'by_waste_type' => Schedule::select('waste_type_id', DB::raw('count(*) as count'))
+                ->groupBy('waste_type_id')
                 ->get()
-                ->pluck('count', 'waste_type')
+                ->pluck('count', 'waste_type_id')
                 ->toArray(),
-            'by_day' => Schedule::select('day_of_week', DB::raw('count(*) as count'))
-                ->groupBy('day_of_week')
+            'by_day' => Schedule::select('day_of_week_id', DB::raw('count(*) as count'))
+                ->groupBy('day_of_week_id')
                 ->get()
-                ->pluck('count', 'day_of_week')
+                ->pluck('count', 'day_of_week_id')
                 ->toArray(),
         ];
     }

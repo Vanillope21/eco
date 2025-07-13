@@ -13,13 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seed lookup tables first
+        // Seed lookup tables first (in dependency order)
         $this->call([
             RolesTableSeeder::class,
             WasteTypesTableSeeder::class,
             DaysOfWeekTableSeeder::class,
             RequestStatusesTableSeeder::class,
             BarangayStatusesTableSeeder::class,
+            NotificationTypesTableSeeder::class,
+            ViolationTypesTableSeeder::class,
+            PenaltyStatusesTableSeeder::class,
         ]);
 
         // Then create users (which depend on roles)

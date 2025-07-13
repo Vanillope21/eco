@@ -26,7 +26,15 @@ class User extends Authenticatable
         'role_id',
         'barangay_id',
         'phone_number',
-        'address',
+        'house_number',
+        'street_name',
+        'subdivision',
+        'sitio',
+        'barangay_address',
+        'city',
+        'province',
+        'postal_code',
+        'additional_address_info',
     ];
 
     /**
