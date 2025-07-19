@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('request_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); // pending, approved, rejected
+            $table->string('status_name')->unique(); // was 'name'
             $table->string('display_name');
             $table->string('color')->nullable(); // for UI badges
             $table->text('description')->nullable();

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('barangay_id');
-            $table->unsignedBigInteger('waste_type_id');
-            $table->unsignedBigInteger('request_status_id')->default(1); // 1 = pending
+            $table->unsignedBigInteger('request_status_id');
+            $table->string('household_address');
             $table->text('notes')->nullable();
             $table->timestamp('requested_at')->nullable();
             $table->timestamp('processed_at')->nullable();
@@ -25,8 +25,7 @@ return new class extends Migration
             // Foreign key constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('barangay_id')->references('id')->on('barangays')->onDelete('cascade');
-            $table->foreign('waste_type_id')->references('id')->on('waste_types')->onDelete('restrict');
-            $table->foreign('request_status_id')->references('id')->on('request_statuses')->onDelete('restrict');
+            $table->foreign('request_status_id')->references('id')->on('request_statuses')->onDelete('cascade');
         });
     }
 

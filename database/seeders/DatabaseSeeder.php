@@ -25,8 +25,10 @@ class DatabaseSeeder extends Seeder
             PenaltyStatusesTableSeeder::class,
         ]);
 
-        // Then create users (which depend on roles)
+        // Then create barangays and users (which depend on roles)
         $this->call([
+            BarangaySeeder::class,
+            EmployeeSeeder::class,
             UsersTableSeeder::class,
         ]);
 

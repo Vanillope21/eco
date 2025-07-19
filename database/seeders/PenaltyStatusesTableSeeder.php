@@ -14,22 +14,22 @@ class PenaltyStatusesTableSeeder extends Seeder
     {
         $statuses = [
             [
-                'name' => 'pending',
+                'penalty_status_name' => 'pending',
                 'display_name' => 'Pending',
                 'description' => 'Penalty is pending payment',
             ],
             [
-                'name' => 'paid',
+                'penalty_status_name' => 'paid',
                 'display_name' => 'Paid',
                 'description' => 'Penalty has been paid',
             ],
             [
-                'name' => 'waived',
+                'penalty_status_name' => 'waived',
                 'display_name' => 'Waived',
                 'description' => 'Penalty has been waived',
             ],
             [
-                'name' => 'overdue',
+                'penalty_status_name' => 'overdue',
                 'display_name' => 'Overdue',
                 'description' => 'Penalty is overdue for payment',
             ],

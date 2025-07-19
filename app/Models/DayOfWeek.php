@@ -9,13 +9,15 @@ class DayOfWeek extends Model
 {
     use HasFactory;
 
+    protected $table = 'days_of_week';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'day_name',
         'display_name',
         'description',
     ];

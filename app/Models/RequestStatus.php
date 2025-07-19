@@ -15,7 +15,7 @@ class RequestStatus extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'status_name',
         'display_name',
         'description',
     ];

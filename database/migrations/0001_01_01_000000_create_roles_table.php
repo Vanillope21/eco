@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); // super-admin, admin, barangay-official, resident
+            $table->string('role_name')->unique(); // super-admin, admin, barangay-official, resident, household, household_member
             $table->string('display_name');
             $table->text('description')->nullable();
             $table->json('permissions')->nullable(); // store permissions as JSON

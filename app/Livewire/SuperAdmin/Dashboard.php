@@ -45,9 +45,9 @@ class Dashboard extends Component
         $this->totalRequests = HouseholdRequest::count();
         
         // Request status counts using foreign keys
-        $pendingStatus = RequestStatus::where('name', 'pending')->first();
-        $approvedStatus = RequestStatus::where('name', 'approved')->first();
-        $rejectedStatus = RequestStatus::where('name', 'rejected')->first();
+        $pendingStatus = RequestStatus::where('status_name', 'pending')->first();
+        $approvedStatus = RequestStatus::where('status_name', 'approved')->first();
+        $rejectedStatus = RequestStatus::where('status_name', 'rejected')->first();
         
         $this->pendingRequests = HouseholdRequest::where('request_status_id', $pendingStatus->id ?? 1)->count();
         $this->approvedRequests = HouseholdRequest::where('request_status_id', $approvedStatus->id ?? 2)->count();
@@ -63,7 +63,7 @@ class Dashboard extends Component
             ->groupBy('role_id')
             ->get()
             ->mapWithKeys(function ($item) {
-                return [$item->role->name ?? 'unknown' => $item->count];
+                return [$item->role->role_name ?? 'unknown' => $item->count];
             })
             ->toArray();
         
@@ -123,7 +123,7 @@ class Dashboard extends Component
                 ->groupBy('waste_type_id')
                 ->get()
                 ->mapWithKeys(function ($item) {
-                    return [$item->wasteType->name ?? 'Unknown' => $item->count];
+                    return [$item->wasteType->waste_type_name ?? 'Unknown' => $item->count];
                 })
                 ->toArray(),
             'by_day' => Schedule::with('dayOfWeek')
@@ -131,7 +131,7 @@ class Dashboard extends Component
                 ->groupBy('day_of_week_id')
                 ->get()
                 ->mapWithKeys(function ($item) {
-                    return [$item->dayOfWeek->name ?? 'Unknown' => $item->count];
+                    return [$item->dayOfWeek->day_name ?? 'Unknown' => $item->count];
                 })
                 ->toArray(),
         ];

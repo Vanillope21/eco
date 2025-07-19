@@ -44,18 +44,18 @@ class Dashboard extends Component
         
         // Request status counts
         $this->pendingRequests = HouseholdRequest::whereHas('requestStatus', function($q) {
-            $q->where('name', 'pending');
+            $q->where('status_name', 'pending');
         })->count();
         $this->approvedRequests = HouseholdRequest::whereHas('requestStatus', function($q) {
-            $q->where('name', 'approved');
+            $q->where('status_name', 'approved');
         })->count();
         $this->rejectedRequests = HouseholdRequest::whereHas('requestStatus', function($q) {
-            $q->where('name', 'rejected');
+            $q->where('status_name', 'rejected');
         })->count();
         
         // Schedule status counts
-        $activeStatusId = \App\Models\BarangayStatus::where('name', 'active')->value('id');
-        $inactiveStatusId = \App\Models\BarangayStatus::where('name', 'inactive')->value('id');
+        $activeStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'active')->value('id');
+        $inactiveStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'inactive')->value('id');
         $this->activeSchedules = Schedule::where('status_id', $activeStatusId)->count();
         $this->inactiveSchedules = Schedule::where('status_id', $inactiveStatusId)->count();
         
@@ -104,7 +104,7 @@ class Dashboard extends Component
                     ->whereYear('created_at', $date->year)
                     ->count(),
                 'approvals' => HouseholdRequest::whereHas('requestStatus', function($q) {
-                    $q->where('name', 'approved');
+                    $q->where('status_name', 'approved');
                 })
                 ->whereMonth('processed_at', $date->month)
                 ->whereYear('processed_at', $date->year)
@@ -124,8 +124,8 @@ class Dashboard extends Component
 
     private function getScheduleStats()
     {
-        $activeStatusId = \App\Models\BarangayStatus::where('name', 'active')->value('id');
-        $inactiveStatusId = \App\Models\BarangayStatus::where('name', 'inactive')->value('id');
+        $activeStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'active')->value('id');
+        $inactiveStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'inactive')->value('id');
         return [
             'total' => Schedule::count(),
             'active' => Schedule::where('status_id', $activeStatusId)->count(),
@@ -148,17 +148,17 @@ class Dashboard extends Component
         return [
             'total' => HouseholdRequest::count(),
             'pending' => HouseholdRequest::whereHas('requestStatus', function($q) {
-                $q->where('name', 'pending');
+                $q->where('status_name', 'pending');
             })->count(),
             'approved' => HouseholdRequest::whereHas('requestStatus', function($q) {
-                $q->where('name', 'approved');
+                $q->where('status_name', 'approved');
             })->count(),
             'rejected' => HouseholdRequest::whereHas('requestStatus', function($q) {
-                $q->where('name', 'rejected');
+                $q->where('status_name', 'rejected');
             })->count(),
             'approval_rate' => HouseholdRequest::count() > 0 
                 ? round((HouseholdRequest::whereHas('requestStatus', function($q) {
-                    $q->where('name', 'approved');
+                    $q->where('status_name', 'approved');
                 })->count() / HouseholdRequest::count()) * 100, 1)
                 : 0,
             'avg_processing_time' => $this->getAverageProcessingTime(),
@@ -169,7 +169,7 @@ class Dashboard extends Component
     {
         $processedRequests = HouseholdRequest::whereNotNull('processed_at')
             ->whereHas('requestStatus', function($q) {
-                $q->where('name', '!=', 'pending');
+                $q->where('status_name', '!=', 'pending');
             })
             ->get();
         
@@ -194,8 +194,8 @@ class Dashboard extends Component
 
     private function getScheduleDistribution()
     {
-        $activeStatusId = \App\Models\BarangayStatus::where('name', 'active')->value('id');
-        $inactiveStatusId = \App\Models\BarangayStatus::where('name', 'inactive')->value('id');
+        $activeStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'active')->value('id');
+        $inactiveStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'inactive')->value('id');
         return [
             'by_waste_type' => Schedule::select('waste_type_id', DB::raw('count(*) as count'))
                 ->groupBy('waste_type_id')

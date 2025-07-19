@@ -15,7 +15,7 @@ class WasteType extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'waste_type_name',
         'display_name',
         'description',
         'color',

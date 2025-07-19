@@ -12,7 +12,7 @@ class HouseholdRequest extends Model
     protected $fillable = [
         'user_id',
         'barangay_id',
-        'waste_type_id',
+        'household_address',
         'request_status_id',
         'notes',
         'requested_at',
@@ -36,11 +36,6 @@ class HouseholdRequest extends Model
         return $this->belongsTo(Barangay::class);
     }
 
-    public function wasteType()
-    {
-        return $this->belongsTo(WasteType::class);
-    }
-
     public function requestStatus()
     {
         return $this->belongsTo(RequestStatus::class);
@@ -49,21 +44,21 @@ class HouseholdRequest extends Model
     public function scopePending($query)
     {
         return $query->whereHas('requestStatus', function($q) {
-            $q->where('name', 'pending');
+            $q->where('status_name', 'pending');
         });
     }
 
     public function scopeApproved($query)
     {
         return $query->whereHas('requestStatus', function($q) {
-            $q->where('name', 'approved');
+            $q->where('status_name', 'approved');
         });
     }
 
     public function scopeRejected($query)
     {
         return $query->whereHas('requestStatus', function($q) {
-            $q->where('name', 'rejected');
+            $q->where('status_name', 'rejected');
         });
     }
 } 

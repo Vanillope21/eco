@@ -13,15 +13,20 @@ return new class extends Migration
     {
         Schema::create('barangays', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name'); // Name of the barangay (e.g., "Barangay San Isidro")
             $table->text('description')->nullable();
-            $table->string('location')->nullable();
+            $table->string('address')->nullable();
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
             $table->string('contact_firstname')->nullable(); // Contact person's first name
             $table->string('contact_lastname')->nullable(); // Contact person's last name
             $table->string('contact_number')->nullable();
             $table->string('email')->nullable();
-            $table->string('status')->default('active');
+            $table->string('status')->nullable();
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('barangays')->onDelete('cascade');
         });
     }
 

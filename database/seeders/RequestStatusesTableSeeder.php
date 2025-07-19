@@ -14,7 +14,7 @@ class RequestStatusesTableSeeder extends Seeder
     {
         $requestStatuses = [
             [
-                'name' => 'pending',
+                'status_name' => 'pending',
                 'display_name' => 'Pending',
                 'color' => '#F59E0B',
                 'description' => 'Request is waiting for review and approval',
@@ -22,7 +22,7 @@ class RequestStatusesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'approved',
+                'status_name' => 'approved',
                 'display_name' => 'Approved',
                 'color' => '#10B981',
                 'description' => 'Request has been approved and is being processed',
@@ -30,7 +30,7 @@ class RequestStatusesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'rejected',
+                'status_name' => 'rejected',
                 'display_name' => 'Rejected',
                 'color' => '#EF4444',
                 'description' => 'Request has been rejected',
@@ -38,7 +38,7 @@ class RequestStatusesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'in_progress',
+                'status_name' => 'in_progress',
                 'display_name' => 'In Progress',
                 'color' => '#3B82F6',
                 'description' => 'Request is currently being processed',
@@ -46,7 +46,7 @@ class RequestStatusesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'completed',
+                'status_name' => 'completed',
                 'display_name' => 'Completed',
                 'color' => '#059669',
                 'description' => 'Request has been completed successfully',

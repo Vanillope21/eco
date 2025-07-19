@@ -14,7 +14,7 @@ class WasteTypesTableSeeder extends Seeder
     {
         $wasteTypes = [
             [
-                'name' => 'general',
+                'waste_type_name' => 'general',
                 'display_name' => 'General Waste',
                 'description' => 'Regular household waste and non-recyclable materials',
                 'color_code' => '#6B7280',
@@ -22,7 +22,7 @@ class WasteTypesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'recyclable',
+                'waste_type_name' => 'recyclable',
                 'display_name' => 'Recyclable Waste',
                 'description' => 'Materials that can be recycled such as paper, plastic, metal',
                 'color_code' => '#10B981',
@@ -30,7 +30,7 @@ class WasteTypesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'hazardous',
+                'waste_type_name' => 'hazardous',
                 'display_name' => 'Hazardous Waste',
                 'description' => 'Dangerous materials that require special handling',
                 'color_code' => '#EF4444',
@@ -38,7 +38,7 @@ class WasteTypesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'organic',
+                'waste_type_name' => 'organic',
                 'display_name' => 'Organic Waste',
                 'description' => 'Biodegradable materials like food scraps and garden waste',
                 'color_code' => '#8B5CF6',
@@ -46,7 +46,7 @@ class WasteTypesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'electronic',
+                'waste_type_name' => 'electronic',
                 'display_name' => 'Electronic Waste',
                 'description' => 'Electronic devices and components',
                 'color_code' => '#F59E0B',

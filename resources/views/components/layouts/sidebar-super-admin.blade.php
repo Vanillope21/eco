@@ -57,13 +57,13 @@
                          x-transition:leave-start="opacity-100 transform translate-y-0" 
                          x-transition:leave-end="opacity-0 transform -translate-y-2"
                          class="ml-6 space-y-1 mt-1">
-                        <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                        <a href="{{ route('superadmin.users') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Manage All Accounts
                         </a>
-                        <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                        <a href="{{ route('superadmin.roles') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Role Management
                         </a>
-                        <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                        <a href="{{ route('superadmin.employees') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Employee Management
                         </a>
                     </div>
@@ -165,6 +165,9 @@
                         </a>
                         <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Maintenance Logs
+                        </a>
+                        <a href="{{ route('superadmin.audit-trail') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                            Audit Trail
                         </a>
                     </div>
                 </div>

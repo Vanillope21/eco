@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('waste_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); // general, recyclable, hazardous, organic
+            $table->string('waste_type_name')->unique(); // was 'name'
             $table->string('display_name');
             $table->text('description')->nullable();
             $table->string('color_code')->nullable(); // for UI display

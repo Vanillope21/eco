@@ -14,7 +14,7 @@ class ViolationTypesTableSeeder extends Seeder
     {
         $types = [
             [
-                'name' => 'improper_disposal',
+                'violation_type_name' => 'improper_disposal',
                 'display_name' => 'Improper Waste Disposal',
                 'description' => 'Disposing waste in unauthorized areas or improper manner',
                 'base_fine' => 1000.00,
@@ -22,7 +22,7 @@ class ViolationTypesTableSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'name' => 'missed_schedule',
+                'violation_type_name' => 'missed_schedule',
                 'display_name' => 'Missed Collection Schedule',
                 'description' => 'Not following the assigned waste collection schedule',
                 'base_fine' => 500.00,
@@ -30,7 +30,7 @@ class ViolationTypesTableSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'name' => 'unauthorized_dumping',
+                'violation_type_name' => 'unauthorized_dumping',
                 'display_name' => 'Unauthorized Dumping',
                 'description' => 'Dumping waste in prohibited areas',
                 'base_fine' => 2000.00,
@@ -38,7 +38,7 @@ class ViolationTypesTableSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'name' => 'non_segregation',
+                'violation_type_name' => 'non_segregation',
                 'display_name' => 'Non-Segregation of Waste',
                 'description' => 'Not separating biodegradable from non-biodegradable waste',
                 'base_fine' => 750.00,
