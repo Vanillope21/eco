@@ -13,8 +13,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
-    <!-- Alpine.js -->
+    @livewireStyles
     
 </head>
 <body class="font-sans antialiased">
@@ -26,7 +25,7 @@
                 </x-layouts.sidebar-super-admin>
             @elseif(auth()->user()->isAdmin())
                 <x-layouts.sidebar-admin>
-                    {{ $slot }}
+                    @yield('content', $slot ?? '')
                 </x-layouts.sidebar-admin>
             @elseif(auth()->user()->isBarangayOfficial())
                 <x-layouts.sidebar-barangay>
@@ -51,5 +50,6 @@
             </div>
         @endauth
     </div>
+    @livewireScripts
 </body>
 </html>

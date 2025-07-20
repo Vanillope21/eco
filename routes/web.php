@@ -123,7 +123,13 @@ Route::middleware(['auth'])->group(function () {
 
 // routes for admins
 Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/schedule-management', App\Livewire\Admin\ScheduleManagement::class)->name('admin.schedule-management');
+    Route::get('/admin/schedule-management', function () {
+        return view('admin.schedule-management');
+    })->name('admin.schedule-management');  
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/barangay-management', \App\Livewire\Admin\BarangayManagement::class)
+        ->name('admin.barangay.management');
 });
 
 require __DIR__.'/auth.php';

@@ -58,7 +58,7 @@
                          x-transition:leave-start="opacity-100 transform translate-y-0" 
                          x-transition:leave-end="opacity-0 transform -translate-y-2"
                          class="ml-6 space-y-1 mt-1">
-                        <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                        <a href="{{ route('admin.barangay.management') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             List of Barangays
                         </a>
                         <a href="{{ route('admin.schedule-management') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">

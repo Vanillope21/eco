@@ -37,7 +37,7 @@ class ScheduleManagement extends Component
             'description' => 'nullable|string',
             'barangay_id' => 'required|exists:barangays,id',
             'waste_type_id' => 'required|exists:waste_types,id',
-            'day_of_week_id' => 'required|exists:day_of_weeks,id',
+            'day_of_week_id' => 'required|exists:days_of_week,id',
             'pickup_time' => 'required|date_format:H:i',
             'status_id' => 'required|exists:barangay_statuses,id',
             'truck_id' => 'nullable|exists:trucks,id',
@@ -69,7 +69,13 @@ class ScheduleManagement extends Component
         ]);
     }
 
-    public function showCreateModal()
+    public function showCreateForm()
+    {
+        $this->resetForm();
+        $this->showForm = true;
+    }
+    
+    public function create()
     {
         $this->resetForm();
         $this->showModal = true;
@@ -92,7 +98,19 @@ class ScheduleManagement extends Component
 
     public function save()
     {
-        $this->validate();
+        $this->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'barangay_id' => 'required|exists:barangays,id',
+            'waste_type_id' => 'required|exists:waste_types,id',
+            'day_of_week_id' => 'required|exists:days_of_week,id',
+            'pickup_time' => 'required|date_format:H:i',
+            'status_id' => 'required|exists:barangay_statuses,id',
+            'truck_id' => 'nullable|exists:trucks,id',
+        ]);
+        if ($this->truck_id === '') {
+            $this->truck_id = null;
+        }
         // Prevent overlapping truck assignments
         if ($this->truck_id) {
             $overlap = Schedule::where('truck_id', $this->truck_id)
@@ -117,6 +135,14 @@ class ScheduleManagement extends Component
         $this->resetPage();
     }
 
+    public function delete($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+        $schedule->delete();
+        session()->flash('message', 'Schedule deleted successfully.');
+        $this->resetPage();
+    }
+
     public function closeModal()
     {
         $this->showModal = false;
@@ -135,6 +161,7 @@ class ScheduleManagement extends Component
         $this->status_id = '';
         $this->truck_id = '';
         $this->resetValidation();
+        $this->showForm = false;
     }
 
     public function updatedSearch()
