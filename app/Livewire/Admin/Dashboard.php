@@ -66,7 +66,7 @@ class Dashboard extends Component
             ->get();
         
         // Recent schedules
-        $this->recentSchedules = Schedule::with(['barangay', 'creator'])
+        $this->recentSchedules = Schedule::with(['barangay'])
             ->latest()
             ->take(5)
             ->get();

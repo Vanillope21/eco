@@ -79,9 +79,9 @@
     <section class="py-16 text-center bg-gradient-to-b from-ecogreen-400 to-ecoyellow-100">
         <img class="mx-auto mb-6 h-16 w-16 rounded shadow-lg bg-white p-2" src="/logo.png" alt="EcoTrack Logo">
         <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-ecoorange">Welcome to EcoTrack</h1>
-        <p class="max-w-2xl mx-auto text-lg md:text-xl text-white mb-8 font-medium drop-shadow">Smarter Waste Management, Greener Communities.<br>Efficient, real-time waste management made simple — from garbage truck tracking to collection scheduling, EcoTrack empowers communities to build cleaner, smarter environments.</p>
+        <p class="max-w-2xl mx-auto text-lg md:text-xl text-black mb-8 font-medium drop-shadow">Smarter Waste Management, Greener Communities.<br>Efficient, real-time waste management made simple — from garbage truck tracking to collection scheduling, EcoTrack empowers communities to build cleaner, smarter environments.</p>
         <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="{{ route('login') }}" class="px-8 py-3 bg-ecogreen text-white rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition w-full sm:w-auto">Login</a>
+            <a href="{{ route('login') }}" class="px-8 py-3 bg-ecogreen text-black rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition w-full sm:w-auto">Login</a>
             <a href="{{ url('/schedules') }}" class="px-8 py-3 border border-ecogreen text-ecogreen rounded-lg font-semibold hover:bg-ecogreen hover:text-white transition w-full sm:w-auto">View Schedules</a>
         </div>
     </section>

@@ -58,7 +58,7 @@ class Login extends Component
         } elseif ($user->isBarangayOfficial()) {
             $redirectTo = '/barangay/dashboard';
         } elseif ($user->isResident()) {
-            $redirectTo = '/resident/dashboard';
+            $redirectTo = '/resident/home';
         }
 
         $this->redirectIntended(default: $redirectTo, navigate: true);
