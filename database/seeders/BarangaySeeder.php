@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Barangay;
 
 class BarangaySeeder extends Seeder
@@ -12,71 +14,46 @@ class BarangaySeeder extends Seeder
      */
     public function run(): void
     {
-        $barangays = [
-            [
-                'name' => 'Barangay 1',
-                'captain_name' => 'Juan Dela Cruz',
-                'contact_number' => '09123456789',
-                'address' => '123 Main Street, City Center',
-                'postal_code' => '1234',
-                'latitude' => 14.5995,
-                'longitude' => 120.9842,
-                'population' => 5000,
+        // Main barangay
+        $mainBarangayId = DB::table('barangays')->insertGetId([
+            'name' => 'Donya Feliza Mejia',
+            'description' => 'Main barangay area',
+            'address' => 'Donya Feliza Mejia, Ormoc City',
+            'latitude' => 11.0123456,
+            'longitude' => 124.5678901,
+                'contact_firstname' => 'Juan',
+                'contact_lastname' => 'Dela Cruz',
+            'contact_number' => '09171234567',
+            'email' => 'barangay.dfm@ormoc.gov.ph',
                 'status' => 'active',
-                'description' => 'Central barangay with mixed residential and commercial areas',
-            ],
-            [
-                'name' => 'Barangay 2',
-                'captain_name' => 'Maria Santos',
-                'contact_number' => '09123456790',
-                'address' => '456 Oak Avenue, Residential District',
-                'postal_code' => '1235',
-                'latitude' => 14.6000,
-                'longitude' => 120.9850,
-                'population' => 3500,
-                'status' => 'active',
-                'description' => 'Residential area with good community facilities',
-            ],
-            [
-                'name' => 'Barangay 3',
-                'captain_name' => 'Pedro Garcia',
-                'contact_number' => '09123456791',
-                'address' => '789 Pine Road, Suburban Area',
-                'postal_code' => '1236',
-                'latitude' => 14.6010,
-                'longitude' => 120.9860,
-                'population' => 2800,
-                'status' => 'active',
-                'description' => 'Suburban barangay with agricultural areas',
-            ],
-            [
-                'name' => 'Barangay 4',
-                'captain_name' => 'Ana Lopez',
-                'contact_number' => '09123456792',
-                'address' => '321 Elm Street, Urban District',
-                'postal_code' => '1237',
-                'latitude' => 14.6020,
-                'longitude' => 120.9870,
-                'population' => 7500,
-                'status' => 'active',
-                'description' => 'Urban barangay with high population density',
-            ],
-            [
-                'name' => 'Barangay 5',
-                'captain_name' => 'Roberto Martinez',
-                'contact_number' => '09123456793',
-                'address' => '654 Beach Road, Coastal Area',
-                'postal_code' => '1238',
-                'latitude' => 14.6030,
-                'longitude' => 120.9880,
-                'population' => 4200,
-                'status' => 'active',
-                'description' => 'Coastal barangay with fishing community',
-            ],
-        ];
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-        foreach ($barangays as $barangay) {
-            Barangay::create($barangay);
-        }
+        // Sub-areas
+        DB::table('barangays')->insert([
+            [
+                'parent_id' => $mainBarangayId,
+                'name' => 'Donya Feliza Mejia (Bloom Fields)',
+                'description' => 'Bloom Fields sub-area',
+                'address' => 'Bloom Fields, Donya Feliza Mejia, Ormoc City',
+                'latitude' => 11.0130000,
+                'longitude' => 124.5680000,
+                'status' => 'active',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'parent_id' => $mainBarangayId,
+                'name' => 'Donya Feliza Mejia (Sitio Jordan)',
+                'description' => 'Sitio Jordan sub-area',
+                'address' => 'Sitio Jordan, Donya Feliza Mejia, Ormoc City',
+                'latitude' => 11.0140000,
+                'longitude' => 124.5690000,
+                'status' => 'active',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 } 

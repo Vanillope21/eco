@@ -3,6 +3,7 @@
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
+use App\Livewire\SuperAdmin\UserManagement;
 use Illuminate\Support\Facades\Route;
 use App\Models\Schedule;
 use App\Models\Barangay;
@@ -87,21 +88,48 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
     // Role-based dashboards
-    Route::get('super-admin/dashboard', \App\Livewire\SuperAdmin\Dashboard::class)
-        ->middleware(['auth', 'role:super-admin'])
+    Route::get('super-admin/dashboard', App\Livewire\SuperAdmin\Dashboard::class)
+        ->middleware('auth')
+        ->middleware(\App\Http\Middleware\RoleMiddleware::class.':super-admin')
         ->name('superadmin.dashboard');
 
-    Route::get('admin/dashboard', \App\Livewire\Admin\Dashboard::class)
-        ->middleware(['auth', 'role:admin'])
+    Route::get('admin/dashboard', App\Livewire\Admin\Dashboard::class)
+        ->middleware('auth')
+        ->middleware(\App\Http\Middleware\RoleMiddleware::class.':admin')
         ->name('admin.dashboard');
 
-    Route::get('barangay/dashboard', \App\Livewire\Barangay\Dashboard::class)
-        ->middleware(['auth', 'role:barangay-official'])
+    Route::get('barangay/dashboard', App\Livewire\Barangay\Dashboard::class)
+        ->middleware('auth')
+        ->middleware(\App\Http\Middleware\RoleMiddleware::class.':barangay-official')
         ->name('barangay.dashboard');
 
-    Route::get('resident/dashboard', \App\Livewire\Resident\Dashboard::class)
-        ->middleware(['auth', 'role:resident'])
+    Route::get('resident/dashboard', App\Livewire\Resident\Dashboard::class)
+        ->middleware('auth')
+        ->middleware(\App\Http\Middleware\RoleMiddleware::class.':resident')
         ->name('resident.dashboard');
+});
+
+//superadmin routes usermanangement
+// Route::middleware(['auth', 'can:manage-users'])->group(function () {
+//     Route::get('/superadmin/users', UserManagement::class)->name('superadmin.users');
+// });
+// test route for superadmin
+Route::middleware(['auth'])->group(function () {
+    Route::get('/superadmin/users', UserManagement::class)->name('superadmin.users');
+    Route::get('/superadmin/employees', App\Livewire\SuperAdmin\EmployeeManagement::class)->name('superadmin.employees');
+    Route::get('/superadmin/roles', App\Livewire\SuperAdmin\RoleManagement::class)->name('superadmin.roles');
+    Route::get('/superadmin/audit-trail', App\Livewire\SuperAdmin\AuditTrail::class)->name('superadmin.audit-trail');
+});
+
+// routes for admins
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/schedule-management', function () {
+        return view('admin.schedule-management');
+    })->name('admin.schedule-management');  
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/barangay-management', \App\Livewire\Admin\BarangayManagement::class)
+        ->name('admin.barangay.management');
 });
 
 require __DIR__.'/auth.php';

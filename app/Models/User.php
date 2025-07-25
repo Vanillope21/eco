@@ -19,11 +19,31 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'employee_id',
+        'household_id',
+        'first_name',
+        'last_name',
+        'extension_name',
+        'birthdate',
+        'username',
         'email',
         'password',
-        'role',
+        'role_id',
         'barangay_id',
+        'phone_number',
+        'position',
+        'street_name',
+        'municipality_city',
+        'province',
+        'house_number',
+        'street_name',
+        'subdivision',
+        'sitio',
+        'barangay_address',
+        'city',
+        'province',
+        'postal_code',
+        'additional_address_info',
     ];
 
     /**
@@ -46,7 +66,16 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'birthdate' => 'date',
         ];
+    }
+
+    /**
+     * Get the user's full name
+     */
+    public function getFullNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name . ($this->extension_name ? ' ' . $this->extension_name : '');
     }
 
     /**
@@ -54,7 +83,7 @@ class User extends Authenticatable
      */
     public function initials(): string
     {
-        return Str::of($this->name)
+        return Str::of($this->first_name . ' ' . $this->last_name)
             ->explode(' ')
             ->take(2)
             ->map(fn ($word) => Str::substr($word, 0, 1))
@@ -62,11 +91,19 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user's role
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
      * Check if the user is a super admin.
      */
     public function isSuperAdmin(): bool
     {
-        return $this->role === 'super-admin';
+        return $this->role_id === 1; // role_id 1 = super-admin
     }
 
     /**
@@ -74,7 +111,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->role_id === 2; // role_id 2 = admin
     }
 
     /**
@@ -82,7 +119,7 @@ class User extends Authenticatable
      */
     public function isBarangayOfficial(): bool
     {
-        return $this->role === 'barangay-official';
+        return $this->role_id === 3; // role_id 3 = barangay-official
     }
 
     /**
@@ -90,15 +127,15 @@ class User extends Authenticatable
      */
     public function isResident(): bool
     {
-        return $this->role === 'resident';
+        return $this->role_id === 4; // role_id 4 = resident
     }
 
     /**
      * Generic role checker.
      */
-    public function hasRole(string $role): bool
+    public function hasRole(string $roleName): bool
     {
-        return $this->role === $role;
+        return $this->role && $this->role->role_name === $roleName;
     }
 
     /**
@@ -107,6 +144,14 @@ class User extends Authenticatable
     public function barangay()
     {
         return $this->belongsTo(Barangay::class);
+    }
+
+    /**
+     * Get the employee associated with this user.
+     */
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 
     /**
@@ -122,6 +167,38 @@ class User extends Authenticatable
      */
     public function createdHouseholdRequests()
     {
-        return $this->hasMany(HouseholdRequest::class, 'created_user_id');
+        return $this->hasMany(HouseholdRequest::class, 'user_id');
+    }
+
+    /**
+     * Get the household members (if this user is a main household account)
+     */
+    public function householdMembers()
+    {
+        return $this->hasMany(User::class, 'household_id');
+    }
+
+    /**
+     * Get the main household account (if this user is a member)
+     */
+    public function household()
+    {
+        return $this->belongsTo(User::class, 'household_id');
+    }
+
+    /**
+     * Check if this user is a main household account
+     */
+    public function isMainHousehold(): bool
+    {
+        return $this->household_id === null && in_array($this->role->role_name, ['household', 'resident']);
+    }
+
+    /**
+     * Check if this user is a household member
+     */
+    public function isHouseholdMember(): bool
+    {
+        return $this->household_id !== null;
     }
 }

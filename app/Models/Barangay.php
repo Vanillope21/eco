@@ -11,21 +11,13 @@ class Barangay extends Model
 
     protected $fillable = [
         'name',
-        'captain_name',
-        'contact_number',
-        'address',
-        'postal_code',
-        'latitude',
-        'longitude',
-        'population',
-        'status',
         'description',
-    ];
-
-    protected $casts = [
-        'latitude' => 'decimal:8',
-        'longitude' => 'decimal:8',
-        'population' => 'integer',
+        'location',
+        'contact_firstname',
+        'contact_lastname',
+        'contact_number',
+        'email',
+        'status',
     ];
 
     public function householdRequests()
@@ -36,5 +28,18 @@ class Barangay extends Model
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    /**
+     * Get the full name of the contact person
+     */
+    public function getContactFullNameAttribute()
+    {
+        return trim($this->contact_firstname . ' ' . $this->contact_lastname);
     }
 }

@@ -64,3 +64,67 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+/* Glassmorphism modal effect */
+.glass-modal {
+    background: rgba(36, 39, 55, 0.92);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.10);
+}
+/* Modal backdrop: blurred and semi-transparent */
+.modal-backdrop {
+    background: rgba(24, 24, 27, 0.45); /* dark, semi-transparent */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    animation: fadeIn 0.2s;
+}
+
+/* Modal panel: solid, floating, with shadow and border */
+.floating-modal {
+    background: #23272f; /* solid dark */
+    color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+    border: 2px solid #475569;
+    padding: 1.5rem;
+    max-width: 28rem;
+    width: 100%;
+    z-index: 10;
+}
+
+/* Table header gradient */
+.table-header-gradient {
+    background: linear-gradient(90deg, #334155 0%, #64748b 100%);
+    color: #fff;
+}
+
+/* Action button hover effect */
+.action-btn {
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.action-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 2px 8px 0 rgba(59,130,246,0.15);
+}
+
+/* Zebra striping for table rows */
+.zebra-table tbody tr:nth-child(even) {
+    background-color: #23272f;
+}
+
+/* Softer input backgrounds */
+.soft-input {
+    background: #23272f;
+    color: #fff;
+    border: 1px solid #475569;
+}
+
+/* For modal backdrop fade-in */
+.modal-backdrop {
+    animation: fadeIn 0.2s;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

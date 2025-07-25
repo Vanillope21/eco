@@ -201,7 +201,7 @@
         <h2 class="text-3xl font-bold mb-4 text-white">Need a Resident Account?</h2>
         <p class="mb-6 text-lg text-ecoyellow">Request your official resident account to access personalized waste collection schedules, submit requests, and stay updated with your barangay's waste management activities.</p>
         <div class="flex flex-col sm:flex-row justify-center gap-4 mb-3">
-            {{-- <a href="{{ route('household.request') }}" class="px-6 py-3 bg-ecoorange text-white rounded-lg font-semibold shadow hover:bg-ecogreen hover:text-ecoorange transition">Request Household Account</a> --}}
+            <a href="{{ route('household.request') }}" class="px-6 py-3 bg-ecoorange text-white rounded-lg font-semibold shadow hover:bg-ecogreen hover:text-ecoorange transition">Request Household Account</a>
             <a href="{{ route('login') }}" class="px-6 py-3 border-2 border-ecoyellow text-ecoyellow rounded-lg font-semibold hover:bg-ecoyellow hover:text-ecogreen transition text-lg">Login to Dashboard</a>
         </div>
         <p class="mt-3 text-white">View schedules and guidelines without an account, or request full access for personalized features.</p>

@@ -13,27 +13,26 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('role_id')->default(1); // 1 = user (default role)
+            $table->unsignedBigInteger('barangay_id')->nullable(); // Allow null for super admin and admin
+            $table->string('phone_number')->nullable();
+            // Address fields will be added in separate migration
             $table->rememberToken();
             $table->timestamps();
+
+            // Foreign key constraints
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('restrict');
+            $table->foreign('barangay_id')->references('id')->on('barangays')->onDelete('set null');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
-        });
-
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
         });
     }
 
@@ -44,6 +43,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
     }
 };
