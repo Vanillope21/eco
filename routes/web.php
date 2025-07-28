@@ -4,6 +4,9 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\SuperAdmin\UserManagement;
+use App\Livewire\Barangay\ScheduleManagement;
+use App\Livewire\Barangay\Dashboard;
+use App\Livewire\Barangay\HouseholdRequests;
 use Illuminate\Support\Facades\Route;
 use App\Models\Schedule;
 use App\Models\Barangay;
@@ -18,14 +21,14 @@ Route::view('dashboard', 'dashboard')
 
     //guest routes
 Route::get('/schedules', function () {
-    $query = Schedule::query();
-    if (request('search')) {
-        $query->where('title', 'like', '%' . request('search') . '%');
-    }
+    $query = Schedule::with(['barangay', 'wasteType', 'dayOfWeek', 'status', 'truck']);
     if (request('barangay')) {
         $query->where('barangay_id', request('barangay'));
     }
-    $schedules = $query->with('barangay')->paginate(10);
+    if (request('search')) {
+        $query->where('title', 'like', '%' . request('search') . '%');
+    }
+    $schedules = $query->paginate(10);
     $barangays = Barangay::where('status', 'active')->orderBy('name')->get();
     return view('guest.schedules', compact('schedules', 'barangays'));
 });
@@ -103,10 +106,11 @@ Route::middleware(['auth'])->group(function () {
         ->middleware(\App\Http\Middleware\RoleMiddleware::class.':barangay-official')
         ->name('barangay.dashboard');
 
-    Route::get('resident/dashboard', App\Livewire\Resident\Dashboard::class)
+    // Replace resident homepage route with Livewire component
+    Route::get('resident/home', App\Livewire\Resident\Homepage::class)
         ->middleware('auth')
         ->middleware(\App\Http\Middleware\RoleMiddleware::class.':resident')
-        ->name('resident.dashboard');
+        ->name('resident.home');
 });
 
 //superadmin routes usermanangement
@@ -130,6 +134,13 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/barangay-management', \App\Livewire\Admin\BarangayManagement::class)
         ->name('admin.barangay.management');
+});
+
+//routes for Barangay Officials
+Route::middleware(['auth'])->group(function () {
+    Route::get('/barangay/dashboard', Dashboard::class)->name('barangay.dashboard');
+    Route::get('/barangay/schedules', ScheduleManagement::class)->name('barangay.schedules');
+    Route::get('/barangay/requests', HouseholdRequests::class)->name('barangay.requests');
 });
 
 require __DIR__.'/auth.php';

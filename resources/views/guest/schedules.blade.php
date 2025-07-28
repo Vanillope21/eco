@@ -35,7 +35,10 @@
                 @endif
             </div>
         </form>
+        
 
+        <!-- debug line -->
+        <div>Selected barangay: {{ request('barangay') }}</div>
         <!-- Schedules Table -->
         <div class="overflow-x-auto bg-white rounded-lg shadow">
             <table class="min-w-full divide-y divide-ecogreen-100">
@@ -46,30 +49,27 @@
                         <th class="px-4 py-3 text-left text-xs font-bold text-ecogreen uppercase">Waste Type</th>
                         <th class="px-4 py-3 text-left text-xs font-bold text-ecogreen uppercase">Day</th>
                         <th class="px-4 py-3 text-left text-xs font-bold text-ecogreen uppercase">Time</th>
-                        <th class="px-4 py-3 text-left text-xs font-bold text-ecogreen uppercase">Collection Point</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-ecogreen uppercase">Truck</th>
                         <th class="px-4 py-3 text-left text-xs font-bold text-ecogreen uppercase">Status</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-ecogreen-50">
                     @forelse($schedules as $schedule)
                         <tr>
-                            <td class="px-4 py-2">{{ $schedule->barangay->name }}</td>
-                            <td class="px-4 py-2">{{ $schedule->title }}</td>
+                            <td class="px-4 py-2">{{ $schedule->barangay->name ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $schedule->title ?? '-' }}</td>
                             <td class="px-4 py-2">
                                 <span class="inline-block px-2 py-1 rounded bg-ecoyellow-100 text-ecogreen text-xs font-semibold">
-                                    {{ ucfirst(str_replace('_', ' ', $schedule->waste_type)) }}
+                                    {{ $schedule->wasteType->waste_type_name ?? '-' }}
                                 </span>
                             </td>
-                            <td class="px-4 py-2">{{ ucfirst($schedule->day_of_week) }}</td>
-                            <td class="px-4 py-2">
-                                {{ \Carbon\Carbon::parse($schedule->collection_start_time)->format('H:i') }} -
-                                {{ \Carbon\Carbon::parse($schedule->collection_end_time)->format('H:i') }}
-                            </td>
-                            <td class="px-4 py-2">{{ $schedule->collection_point ?? 'Not specified' }}</td>
+                            <td class="px-4 py-2">{{ $schedule->dayOfWeek->day_name ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $schedule->pickup_time ? \Carbon\Carbon::parse($schedule->pickup_time)->format('H:i') : '-' }}</td>
+                            <td class="px-4 py-2">{{ $schedule->truck->plate_number ?? '-' }}</td>
                             <td class="px-4 py-2">
                                 <span class="inline-block px-2 py-1 rounded text-xs font-semibold
-                                    {{ $schedule->status === 'in_progress' ? 'bg-ecogreen-100 text-ecogreen' : 'bg-ecoorange-100 text-ecoorange' }}">
-                                    {{ ucfirst(str_replace('_', ' ', $schedule->status)) }}
+                                    {{ ($schedule->status->display_name ?? '') === 'Active' ? 'bg-ecogreen-100 text-ecogreen' : 'bg-ecoorange-100 text-ecoorange' }}">
+                                    {{ $schedule->status->display_name ?? '-' }}
                                 </span>
                             </td>
                         </tr>
@@ -82,10 +82,12 @@
             </table>
         </div>
 
-        <!-- Pagination -->
+        <!-- Pagination (if using pagination) -->
+        @if(method_exists($schedules, 'links'))
         <div class="mt-6 flex justify-center">
             {{ $schedules->links() }}
         </div>
+        @endif
     </section>
 </body>
 </html>
