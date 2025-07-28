@@ -11,7 +11,7 @@
                 <div class="hidden md:flex space-x-4 items-center">
                     <a href="{{ url('/') }}" class="text-emerald-700 font-semibold hover:text-orange-500">Home</a>
                     <a href="{{ url('/schedules') }}" class="text-emerald-700 hover:text-orange-500">Schedules</a>
-                    {{-- <a href="{{ route('household.request') }}" class="text-emerald-700 hover:text-orange-500">Request Account</a> --}}
+                    <a href="{{ route('household.request') }}" class="text-emerald-700 hover:text-orange-500">Request Account</a> 
                     <div class="relative group">
                         <button class="text-emerald-700 hover:text-orange-500 focus:outline-none flex items-center">
                             Information

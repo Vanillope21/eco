@@ -6,28 +6,65 @@
     <title>Welcome - EcoTrack</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        /* Custom card and hover effects */
+        .eco-card {
+            background: linear-gradient(135deg, #fff 60%, #e3fcec 100%);
+            border: 2px solid #dcfce7;
+            border-radius: 1.25rem;
+            box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.08);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .eco-card:hover {
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            transform: translateY(-4px) scale(1.03);
+        }
+        .eco-cta {
+            background: linear-gradient(90deg, #34d399 0%, #fef9c3 100%);
+            border-radius: 1.25rem;
+            box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.08);
+        }
+        .eco-section {
+            margin-top: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .eco-icon-card {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 8px 0 rgba(59,130,246,0.10);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        body.eco-bg {
+            background: linear-gradient(135deg, #e3fcec 0%, #e0f2fe 100%) !important;
+        }
+        @media (max-width: 640px) {
+            .eco-section { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+        }
+    </style>
     </head>
-<body class="bg-ecogreen-50 text-gray-900 font-sans">
+<body class="eco-bg text-gray-900 font-sans">
     <!-- Navigation Bar -->
-    <nav class="bg-white shadow sticky top-0 z-50">
+    <nav class="bg-white shadow-md fixed top-0 left-0 w-full z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
-                    <a href="#" class="flex items-center">
-                        <img src="{{ asset('/logo.png') }}" alt="Logo" class="h-8 w-auto mr-2">
-                        <span class="font-bold text-lg text-emerald-700">Ecotrack</span>
-                    </a>
-                </div>
-                <div class="hidden md:flex space-x-4 items-center">
-                    <a href="#" class="text-emerald-700 font-semibold hover:text-orange-500">Home</a>
-                    <a href="{{ url('/schedules') }}" class="text-emerald-700 hover:text-orange-500">Schedules</a>
-                    <a href="{{ route('household.request') }}" class="text-emerald-700 hover:text-orange-500">Request Account</a>
+            <div class="flex justify-between h-16 items-center">
+                <a href="#" class="flex items-center gap-2">
+                    <img src="{{ asset('/logo.png') }}" alt="Logo" class="h-9 w-auto">
+                    <span class="font-bold text-xl text-emerald-700 tracking-wide">Ecotrack</span>
+                </a>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#" class="text-emerald-700 font-semibold hover:text-orange-500 transition">Home</a>
+                    <a href="{{ url('/schedules') }}" class="text-emerald-700 hover:text-orange-500 transition">Schedules</a>
+                    <a href="{{ route('household.request') }}" class="text-emerald-700 hover:text-orange-500 transition">Request Account</a>
                     <div class="relative group">
-                        <button class="text-emerald-700 hover:text-orange-500 focus:outline-none flex items-center">
+                        <button class="text-emerald-700 hover:text-orange-500 focus:outline-none flex items-center transition">
                             Information
                             <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                    </svg>
+                            </svg>
                         </button>
                         <div class="absolute left-0 mt-2 w-48 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
                             <a href="{{ url('/guidelines') }}" class="block px-4 py-2 text-emerald-700 hover:bg-emerald-50">Waste Guidelines</a>
@@ -38,15 +75,14 @@
                             <a href="{{ url('/about') }}" class="block px-4 py-2 text-emerald-700 hover:bg-emerald-50">About EcoTrack</a>
                         </div>
                     </div>
-                    <a href="{{ route('login') }}" class="text-emerald-700 hover:text-orange-500">Login</a>
+                    <a href="{{ route('login') }}" class="text-emerald-700 hover:text-orange-500 transition">Login</a>
                 </div>
                 <!-- Mobile menu button -->
                 <div class="flex items-center md:hidden">
                     <button id="mobile-menu-button" class="text-emerald-700 focus:outline-none">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M4 6h16M4 12h16M4 18h16"/>
-                                    </svg>
+                        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -76,49 +112,48 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="py-16 text-center bg-gradient-to-b from-ecogreen-400 to-ecoyellow-100">
-        <img class="mx-auto mb-6 h-16 w-16 rounded shadow-lg bg-white p-2" src="/logo.png" alt="EcoTrack Logo">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-ecoorange">Welcome to EcoTrack</h1>
-        <p class="max-w-2xl mx-auto text-lg md:text-xl text-black mb-8 font-medium drop-shadow">Smarter Waste Management, Greener Communities.<br>Efficient, real-time waste management made simple — from garbage truck tracking to collection scheduling, EcoTrack empowers communities to build cleaner, smarter environments.</p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="{{ route('login') }}" class="px-8 py-3 bg-ecogreen text-black rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition w-full sm:w-auto">Login</a>
-            <a href="{{ url('/schedules') }}" class="px-8 py-3 border border-ecogreen text-ecogreen rounded-lg font-semibold hover:bg-ecogreen hover:text-white transition w-full sm:w-auto">View Schedules</a>
+    <section class="relative flex items-center justify-center min-h-screen pt-20 pb-10 text-center bg-gradient-to-b from-ecogreen-400 to-ecoyellow-100">
+        <div class="eco-card p-10 max-w-2xl mx-auto flex flex-col items-center">
+            <img class="mb-6 h-24 w-24 rounded shadow-lg bg-white p-2" src="/logo.png" alt="EcoTrack Logo">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-4 text-ecoorange drop-shadow">Welcome to EcoTrack</h1>
+            <p class="max-w-2xl mx-auto text-xl md:text-2xl text-black mb-8 font-medium drop-shadow">Smarter Waste Management, Greener Communities.<br>Efficient, real-time waste management made simple — from garbage truck tracking to collection scheduling, EcoTrack empowers communities to build cleaner, smarter environments.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 w-full">
+                <a href="{{ route('login') }}" class="px-10 py-4 bg-ecogreen text-black rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition w-full sm:w-auto text-lg">Login</a>
+                <a href="{{ url('/schedules') }}" class="px-10 py-4 border border-ecogreen text-ecogreen rounded-lg font-semibold hover:bg-ecogreen hover:text-white transition w-full sm:w-auto text-lg">View Schedules</a>
+            </div>
         </div>
     </section>
     
-    
     <!-- Features Section -->
-    <section class="max-w-7xl mx-auto py-16 px-4 bg-ecoyellow-50 rounded-xl mt-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white rounded-lg shadow p-8 text-center flex flex-col items-center">
-                <div class="flex justify-center mb-4 text-ecogreen">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                </div>
-                <h2 class="text-xl font-bold mb-2 text-ecogreen">Smart Scheduling</h2>
-                <p class="mb-4 text-gray-700">Access real-time collection schedules for your barangay. Get notified about pickup times and any schedule changes instantly.</p>
-                <a class="text-ecogreen border border-ecogreen px-4 py-2 rounded hover:bg-ecogreen hover:text-white transition font-semibold" href="{{ url('/schedules') }}">View Schedules »</a>
+    <section class="max-w-7xl mx-auto py-16 px-4 eco-section grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="eco-card text-center flex flex-col items-center p-8">
+            <div class="eco-icon-card text-ecogreen mb-4">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             </div>
-            <div class="bg-white rounded-lg shadow p-8 text-center flex flex-col items-center">
-                <div class="flex justify-center mb-4 text-ecoorange">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z"/><path d="M3 12c1 0 2-1 2-2s-1-2-2-2-2 1-2 2 1 2 2 2z"/><path d="M12 3c0 1-1 2-2 2s-2-1-2-2 1-2 2-2 2 1 2 2z"/><path d="M12 21c0-1 1-2 2-2s2 1 2 2-1 2-2 2-2-1-2-2z"/></svg>
-                </div>
-                <h2 class="text-xl font-bold mb-2 text-ecoorange">Waste Guidelines</h2>
-                <p class="mb-4 text-gray-700">Learn proper waste segregation techniques and best practices for sustainable waste management in your community.</p>
-                <a class="text-ecoorange border border-ecoorange px-4 py-2 rounded hover:bg-ecoorange hover:text-white transition font-semibold" href="{{ url('/guidelines') }}">Learn More »</a>
+            <h2 class="text-xl font-bold mb-2 text-ecogreen">Smart Scheduling</h2>
+            <p class="mb-4 text-gray-700">Access real-time collection schedules for your barangay. Get notified about pickup times and any schedule changes instantly.</p>
+            <a class="text-ecogreen border border-ecogreen px-4 py-2 rounded hover:bg-ecogreen hover:text-white transition font-semibold" href="{{ url('/schedules') }}">View Schedules »</a>
+        </div>
+        <div class="eco-card text-center flex flex-col items-center p-8">
+            <div class="eco-icon-card text-ecoorange mb-4">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z"/><path d="M3 12c1 0 2-1 2-2s-1-2-2-2-2 1-2 2 1 2 2 2z"/><path d="M12 3c0 1-1 2-2 2s-2-1-2-2 1-2 2-2 2 1 2 2z"/><path d="M12 21c0-1 1-2 2-2s2 1 2 2-1 2-2 2-2-1-2-2z"/></svg>
             </div>
-            <div class="bg-white rounded-lg shadow p-8 text-center flex flex-col items-center">
-                <div class="flex justify-center mb-4 text-ecogreen">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                </div>
-                <h2 class="text-xl font-bold mb-2 text-ecogreen">Community Connect</h2>
-                <p class="mb-4 text-gray-700">Connect with your barangay officials and stay informed about local waste management initiatives and updates.</p>
-                <a class="text-ecogreen border border-ecogreen px-4 py-2 rounded hover:bg-ecogreen hover:text-white transition font-semibold" href="{{ url('/barangays') }}">Find Your Barangay »</a>
+            <h2 class="text-xl font-bold mb-2 text-ecoorange">Waste Guidelines</h2>
+            <p class="mb-4 text-gray-700">Learn proper waste segregation techniques and best practices for sustainable waste management in your community.</p>
+            <a class="text-ecoorange border border-ecoorange px-4 py-2 rounded hover:bg-ecoorange hover:text-white transition font-semibold" href="{{ url('/guidelines') }}">Learn More »</a>
+        </div>
+        <div class="eco-card text-center flex flex-col items-center p-8">
+            <div class="eco-icon-card text-ecogreen mb-4">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
+            <h2 class="text-xl font-bold mb-2 text-ecogreen">Community Connect</h2>
+            <p class="mb-4 text-gray-700">Connect with your barangay officials and stay informed about local waste management initiatives and updates.</p>
+            <a class="text-ecogreen border border-ecogreen px-4 py-2 rounded hover:bg-ecogreen hover:text-white transition font-semibold" href="{{ url('/barangays') }}">Find Your Barangay »</a>
         </div>
     </section>
 
     <!-- Feature Details Section -->
-    <div class="max-w-7xl mx-auto py-16 px-4 space-y-16 bg-ecoorange-50 rounded-xl mt-8">
+    <div class="max-w-7xl mx-auto py-16 px-4 space-y-16 bg-ecoorange-50 rounded-xl mt-8 eco-section">
     <!-- Feature 1 -->
     <div class="flex flex-col md:flex-row items-center md:space-x-12">
         <div class="md:w-7/12">
@@ -129,7 +164,7 @@
             <p class="text-lg text-gray-700 mb-4">
                 Track garbage collection vehicles in real-time with our advanced GPS system. Know exactly when collection trucks will arrive in your area and get notified of any delays or changes.
             </p>
-            <a href="{{ url('/schedules') }}" class="inline-block px-6 py-3 bg-ecogreen text-white rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition">
+            <a href="{{ url('/schedules') }}" class="inline-block px-6 py-3 bg-ecogreen text-gray-900 rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition">
                 View Collection Schedules
             </a>
         </div>
@@ -152,7 +187,7 @@
             <p class="text-lg text-gray-700 mb-4">
                 Learn proper waste segregation techniques that help reduce environmental impact and improve recycling efficiency. Our comprehensive guidelines make it easy for everyone to contribute to a cleaner environment.
             </p>
-            <a href="{{ url('/guidelines') }}" class="inline-block px-6 py-3 bg-ecoorange text-white rounded-lg font-semibold shadow hover:bg-ecogreen hover:text-ecoorange transition">
+            <a href="{{ url('/guidelines') }}" class="inline-block px-6 py-3 bg-ecoorange text-gray-900 rounded-lg font-semibold shadow hover:bg-ecogreen hover:text-ecoorange transition">
                 Learn Waste Guidelines
             </a>
         </div>
@@ -178,7 +213,7 @@
             <p class="text-lg text-gray-700 mb-4">
                 Connect with your barangay officials and stay informed about local waste management initiatives. Report issues, request services, and contribute to making your community cleaner and more sustainable.
             </p>
-            <a href="{{ url('/contact') }}" class="inline-block px-6 py-3 bg-ecogreen text-white rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition">
+            <a href="{{ url('/contact') }}" class="inline-block px-6 py-3 bg-ecogreen text-gray-900 rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition">
                 Contact Your Barangay
             </a>
         </div>
@@ -196,7 +231,7 @@
     </div>     
 
     <!-- Call to Action Section -->
-<section class="max-w-4xl mx-auto my-16 px-4 bg-ecogreen-50 rounded-xl">
+<section class="max-w-4xl mx-auto my-16 px-4 eco-cta rounded-xl">
     <div class="bg-ecogreen rounded-lg p-8 text-center shadow-lg">
         <h2 class="text-3xl font-bold mb-4 text-white">Need a Resident Account?</h2>
         <p class="mb-6 text-lg text-ecoyellow">Request your official resident account to access personalized waste collection schedules, submit requests, and stay updated with your barangay's waste management activities.</p>
@@ -209,8 +244,8 @@
 </section>
 
 <!-- Contact Us Section -->
-<section class="max-w-4xl mx-auto my-16 px-4 bg-ecoyellow-50 rounded-xl">
-    <div class="bg-white rounded-lg p-8 shadow-lg border border-ecogreen">
+<section class="max-w-4xl mx-auto my-16 px-4 bg-ecoyellow-50 rounded-xl eco-section">
+    <div class="eco-card rounded-lg p-8 shadow-lg border border-ecogreen">
         <h2 class="text-2xl font-bold mb-4 text-center text-ecogreen">Contact Us</h2>
         <p class="mb-4 text-center text-ecoorange">Have questions or want to get in touch? Reach out to us!</p>
         <div class="flex flex-col md:flex-row justify-center gap-8 text-center">
@@ -224,7 +259,7 @@
     <!-- Footer -->
     <footer class="bg-ecogreen border-t py-8 mt-16">
         <div class="max-w-7xl mx-auto px-4">
-            <ul class="flex flex-wrap justify-center gap-8 mb-6 text-white border-b border-ecoyellow pb-4">
+            <ul class="flex flex-wrap justify-center gap-8 mb-6 text-gray-900 border-b border-ecoyellow pb-4">
                 <li><a href="{{ url('/') }}" class="hover:text-ecoyellow transition">Home</a></li>
                 <li><a href="{{ url('/terms') }}" class="hover:text-ecoyellow transition">Terms & Conditions</a></li>
                 <li><a href="{{ url('/privacy') }}" class="hover:text-ecoyellow transition">Privacy Policy</a></li> 

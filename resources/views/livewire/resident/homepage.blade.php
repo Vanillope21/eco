@@ -40,8 +40,43 @@
             </a>
         </div>
 
+        <!-- Next Pickup Summary & Calendar Link -->
+        <div class="bg-white rounded-lg shadow p-6 flex flex-col md:flex-row items-center justify-between mb-8">
+            <div class="mb-4 md:mb-0">
+                <h2 class="text-xl font-semibold text-green-800">Next Collection Schedule</h2>
+                @php
+                    $nextPickup = null;
+                    if (isset($calendarSchedules) && count($calendarSchedules)) {
+                        $futureDates = collect(array_keys($calendarSchedules))->filter(fn($date) => $date >= now()->toDateString())->sort();
+                        if ($futureDates->count()) {
+                            $nextDate = $futureDates->first();
+                            $nextPickup = [
+                                'date' => $nextDate,
+                                'schedules' => $calendarSchedules[$nextDate],
+                            ];
+                        }
+                    }
+                @endphp
+                @if ($nextPickup)
+                    <div class="mt-2 text-green-700 font-bold text-lg">{{ \Carbon\Carbon::parse($nextPickup['date'])->format('l, F d, Y') }}</div>
+                    <ul class="mt-1 text-gray-700 text-sm">
+                        @foreach ($nextPickup['schedules'] as $sched)
+                            <li class="mb-1">
+                                <span class="font-semibold">{{ $sched['title'] }}</span>
+                                @if ($sched['pickup_time'])<span> at {{ $sched['pickup_time'] }}</span>@endif
+                                @if ($sched['waste_type'])<span> ({{ $sched['waste_type'] }})</span>@endif
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <div class="mt-2 text-gray-500">No upcoming schedules found.</div>
+                @endif
+            </div>
+            <a href="{{ route('resident.schedules') }}" class="inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition">View Full Calendar</a>
+        </div>
+
         <!-- Announcements / Tips -->
-        <div class="bg-white rounded-lg shadow p-8">
+        <div class="bg-white rounded-lg shadow p-8 mb-12">
             <h2 class="text-2xl font-semibold text-green-800 mb-4">Announcements & Tips</h2>
             <ul class="list-disc pl-8 text-gray-700 space-y-2">
                 <li>Check your collection schedule regularly to avoid missed pickups.</li>

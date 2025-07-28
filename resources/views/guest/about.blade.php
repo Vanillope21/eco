@@ -6,11 +6,31 @@
     <title>About EcoTrack - Smart Waste Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        body.eco-bg {
+            background: linear-gradient(135deg, #e3fcec 0%, #e0f2fe 100%) !important;
+        }
+        .eco-card {
+            background: linear-gradient(135deg, #fff 60%, #e3fcec 100%);
+            border: 2px solid #dcfce7;
+            border-radius: 1.25rem;
+            box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.08);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .eco-card:hover {
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            transform: translateY(-2px) scale(1.01);
+        }
+        @media (max-width: 640px) {
+            .eco-card { padding: 0.5rem; }
+        }
+    </style>
 </head>
-<body class="bg-ecogreen-50 text-gray-900 font-sans">
+<body class="eco-bg text-gray-900 font-sans">
     @include('partials.guest-navbar')
     
     <main class="max-w-7xl mx-auto py-12 px-4">
+        <div class="eco-card p-8">
         <!-- Hero Section -->
         <div class="text-center mb-12">
             <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-ecogreen">About EcoTrack</h1>
@@ -18,15 +38,15 @@
             
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div class="bg-gradient-to-br from-ecogreen to-ecogreen-600 text-white rounded-xl p-6 shadow-lg">
+                <div class="bg-gradient-to-br from-ecogreen to-ecogreen-600 text-gray-900 rounded-xl p-6 shadow-lg">
                     <h3 class="text-4xl font-bold mb-2">50+</h3>
                     <p class="text-ecogreen-100">Barangays Served</p>
                 </div>
-                <div class="bg-gradient-to-br from-ecogreen to-ecogreen-600 text-white rounded-xl p-6 shadow-lg">
+                <div class="bg-gradient-to-br from-ecogreen to-ecogreen-600 text-gray-900 rounded-xl p-6 shadow-lg">
                     <h3 class="text-4xl font-bold mb-2">10K+</h3>
                     <p class="text-ecogreen-100">Residents Connected</p>
                 </div>
-                <div class="bg-gradient-to-br from-ecogreen to-ecogreen-600 text-white rounded-xl p-6 shadow-lg">
+                <div class="bg-gradient-to-br from-ecogreen to-ecogreen-600 text-gray-900 rounded-xl p-6 shadow-lg">
                     <h3 class="text-4xl font-bold mb-2">95%</h3>
                     <p class="text-ecogreen-100">Collection Efficiency</p>
                 </div>
@@ -133,7 +153,7 @@
                 <!-- Smart Scheduling -->
                 <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                         </svg>
                     </div>
@@ -144,7 +164,7 @@
                 <!-- GPS Tracking -->
                 <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                             <circle cx="12" cy="10" r="3"/>
                         </svg>
@@ -156,7 +176,7 @@
                 <!-- Community Connect -->
                 <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                             <circle cx="9" cy="7" r="4"/>
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
@@ -170,7 +190,7 @@
                 <!-- Waste Education -->
                 <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                             <path d="M21 12c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z"/>
                             <path d="M3 12c1 0 2-1 2-2s-1-2-2-2-2 1-2 2 1 2 2 2z"/>
@@ -183,7 +203,7 @@
                 <!-- Analytics & Reports -->
                 <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                             <polyline points="14,2 14,8 20,8"/>
                             <line x1="16" y1="13" x2="8" y2="13"/>
@@ -198,7 +218,7 @@
                 <!-- Quality Assurance -->
                 <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                             <polyline points="22,4 12,14.01 9,11.01"/>
                         </svg>
@@ -248,7 +268,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="text-center">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                         </svg>
                     </div>
@@ -258,7 +278,7 @@
                 
                 <div class="text-center">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                             <circle cx="9" cy="7" r="4"/>
                         </svg>
@@ -269,7 +289,7 @@
                 
                 <div class="text-center">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                             <circle cx="12" cy="10" r="3"/>
                         </svg>
@@ -280,7 +300,7 @@
                 
                 <div class="text-center">
                     <div class="w-16 h-16 bg-gradient-to-br from-ecogreen to-ecogreen-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                         </svg>
                     </div>
@@ -292,21 +312,22 @@
 
         <!-- Call to Action -->
         <div class="max-w-4xl mx-auto">
-            <div class="bg-gradient-to-br from-ecogreen to-ecogreen-600 text-white rounded-xl shadow-lg p-8 text-center">
+            <div class="bg-gradient-to-br from-ecogreen to-ecogreen-600 text-gray-900 rounded-xl shadow-lg p-8 text-center">
                 <h2 class="text-3xl font-bold mb-4">Ready to Join EcoTrack?</h2>
                 <p class="text-xl mb-8 opacity-90">Be part of the solution for cleaner, more sustainable communities</p>
                 <div class="flex flex-wrap justify-center gap-4">
                     <a href="{{ route('login') }}" class="px-8 py-3 bg-white text-ecogreen font-semibold rounded-lg hover:bg-gray-100 transition">Request Resident Account</a>
-                    <a href="{{ url('/contact') }}" class="px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-ecogreen transition">Contact Us</a>
+                    <a href="{{ url('/contact') }}" class="px-8 py-3 border-2 border-white text-gray-900 font-semibold rounded-lg hover:bg-white hover:text-ecogreen transition">Contact Us</a>
                 </div>
             </div>
+        </div>
         </div>
     </main>
 
     <!-- Footer -->
     <footer class="bg-ecogreen border-t py-8 mt-16">
         <div class="max-w-7xl mx-auto px-4">
-            <ul class="flex flex-wrap justify-center gap-8 mb-6 text-white border-b border-ecoyellow pb-4">
+            <ul class="flex flex-wrap justify-center gap-8 mb-6 text-gray-900 border-b border-ecoyellow pb-4">
                 <li><a href="{{ url('/') }}" class="hover:text-ecoyellow transition">Home</a></li>
                 <li><a href="{{ url('/schedules') }}" class="hover:text-ecoyellow transition">Schedules</a></li>
                 <li><a href="{{ url('/guidelines') }}" class="hover:text-ecoyellow transition">Guidelines</a></li>
