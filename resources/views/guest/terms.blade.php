@@ -7,8 +7,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="{{ asset('css/legal-documents.css') }}" rel="stylesheet">
+    <style>
+        body.eco-bg {
+            background: linear-gradient(135deg, #e3fcec 0%, #e0f2fe 100%) !important;
+        }
+        .eco-card {
+            background: linear-gradient(135deg, #fff 60%, #e3fcec 100%);
+            border: 2px solid #dcfce7;
+            border-radius: 1.25rem;
+            box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.08);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .eco-card:hover {
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            transform: translateY(-2px) scale(1.01);
+        }
+        @media (max-width: 640px) {
+            .eco-card { padding: 0.5rem; }
+        }
+    </style>
 </head>
-<body class="legal-document-page">
+<body class="eco-bg text-gray-900 font-sans">
     <!-- Back Button -->
     <div class="back-button">
         <a href="{{ url('/') }}" class="back-link">
@@ -19,7 +38,7 @@
         </a>
     </div>
 
-    <div class="container">
+    <div class="container eco-card p-8 mt-8 mb-8">
         <h1>Ecotrack Terms and Conditions</h1>
         <p>Last updated: {{ now()->format("F j, Y") }}</p>
         

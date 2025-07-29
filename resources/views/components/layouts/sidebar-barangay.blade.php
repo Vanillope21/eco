@@ -1,6 +1,26 @@
-<div class="flex h-screen bg-gray-100">
+<div class="flex h-screen bg-gray-100" x-data="{ sidebarOpen: false }">
+    <!-- Mobile sidebar overlay -->
+    <div x-show="sidebarOpen" 
+         x-transition:enter="transition-opacity ease-linear duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity ease-linear duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
+         @click="sidebarOpen = false">
+    </div>
+
     <!-- Sidebar -->
-    <div class="w-64 bg-white shadow-lg">
+    <div x-show="sidebarOpen" 
+         x-transition:enter="transition ease-in-out duration-300 transform"
+         x-transition:enter-start="-translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition ease-in-out duration-300 transform"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="-translate-x-full"
+         class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform lg:translate-x-0 lg:static lg:inset-0">
+        
         <!-- Logo and Brand -->
         <div class="flex items-center justify-center h-16 bg-emerald-600 text-white">
             <div class="flex items-center space-x-2">
@@ -26,7 +46,7 @@
         </div>
 
         <!-- Navigation Menu -->
-        <nav class="mt-4">
+        <nav class="mt-4 overflow-y-auto h-full pb-20">
             <div class="px-4">
                 <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Barangay Management</h3>
                 
@@ -260,9 +280,16 @@
     <div class="flex-1 flex flex-col overflow-hidden">
         <!-- Top Navigation -->
         <header class="bg-white shadow-sm border-b border-gray-200">
-            <div class="flex items-center justify-between px-6 py-4">
+            <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
+                <!-- Mobile menu button -->
+                <button @click="sidebarOpen = true" class="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+
                 <div class="flex items-center">
-                    <h1 class="text-2xl font-semibold text-gray-900">
+                    <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">
                         Barangay Dashboard
                     </h1>
                 </div>

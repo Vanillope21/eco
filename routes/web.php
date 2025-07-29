@@ -10,6 +10,7 @@ use App\Livewire\Barangay\HouseholdRequests;
 use Illuminate\Support\Facades\Route;
 use App\Models\Schedule;
 use App\Models\Barangay;
+use App\Livewire\Resident\Schedules;
 
 Route::get('/', function () {
     return view('welcome');
@@ -83,7 +84,7 @@ Route::match(['get', 'post'], '/household-request', [App\Http\Controllers\Househ
 Route::post('/household-request', [App\Http\Controllers\HouseholdRequestController::class, 'store'])
     ->name('household.request.store');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');
@@ -111,6 +112,8 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('auth')
         ->middleware(\App\Http\Middleware\RoleMiddleware::class.':resident')
         ->name('resident.home');
+
+    Route::get('/resident/schedules', Schedules::class)->name('resident.schedules');
 });
 
 //superadmin routes usermanangement

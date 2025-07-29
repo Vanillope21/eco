@@ -7,8 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="{{ asset('css/legal-documents.css') }}" rel="stylesheet">
+
 </head>
-<body class="legal-document-page">
+<body class="eco-bg text-gray-900 font-sans">
     <!-- Back Button -->
     <div class="back-button">
         <a href="{{ url('/') }}" class="back-link">
@@ -19,7 +20,7 @@
         </a>
     </div>
 
-    <div class="container">
+    <div class="container eco-card p-8 mt-8 mb-8">
         <h1>EcoTrack Privacy Policy</h1>
         <p>Last updated: {{ now()->format("F j, Y") }}</p>
 

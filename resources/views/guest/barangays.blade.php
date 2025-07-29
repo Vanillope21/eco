@@ -6,8 +6,27 @@
     <title>Barangay Information - EcoTrack</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        body.eco-bg {
+            background: linear-gradient(135deg, #e3fcec 0%, #e0f2fe 100%) !important;
+        }
+        .eco-card {
+            background: linear-gradient(135deg, #fff 60%, #e3fcec 100%);
+            border: 2px solid #dcfce7;
+            border-radius: 1.25rem;
+            box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.08);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .eco-card:hover {
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            transform: translateY(-2px) scale(1.01);
+        }
+        @media (max-width: 640px) {
+            .eco-card { padding: 0.5rem; }
+        }
+    </style>
 </head>
-<body class="bg-ecogreen-50 text-gray-900 font-sans">
+<body class="eco-bg text-gray-900 font-sans">
     @include('partials.guest-navbar')
     <main class="max-w-7xl mx-auto py-12 px-4">
         <!-- Hero Section -->
@@ -45,7 +64,7 @@
                     <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
                     <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
                 </select>
-                <button type="submit" class="px-6 py-2 bg-ecogreen text-white rounded font-semibold hover:bg-ecoorange transition">Search</button>
+                <button type="submit" class="px-6 py-2 bg-ecogreen text-gray-900 rounded font-semibold hover:bg-ecoorange transition">Search</button>
             </form>
             @if(request()->has('search') || request()->has('status'))
                 <div class="mt-3 text-center">
@@ -99,7 +118,7 @@
                     <div class="text-center py-5">
                         <h4 class="text-ecoorange">No barangays found</h4>
                         <p class="text-gray-500">Try adjusting your search criteria.</p>
-                        <a href="{{ url('/barangays') }}" class="px-6 py-2 bg-ecogreen text-white rounded font-semibold hover:bg-ecoorange transition">View All Barangays</a>
+                        <a href="{{ url('/barangays') }}" class="px-6 py-2 bg-ecogreen text-gray-900 rounded font-semibold hover:bg-ecoorange transition">View All Barangays</a>
                     </div>
                 </div>
             @endforelse
@@ -116,7 +135,7 @@
         <section class="text-center mt-10">
             <h3 class="text-2xl font-bold text-ecogreen mb-2">Can't Find Your Barangay?</h3>
             <p class="text-lg text-ecoorange mb-4">Contact us if your barangay is not listed or if you need assistance.</p>
-            <a href="{{ url('/contact') }}" class="px-8 py-3 bg-ecogreen text-white rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition text-lg mr-3">Contact Us</a>
+            <a href="{{ url('/contact') }}" class="px-8 py-3 bg-ecogreen text-gray-900 rounded-lg font-semibold shadow hover:bg-ecoorange hover:text-ecogreen transition text-lg mr-3">Contact Us</a>
             <a href="{{ route('register') }}" class="px-8 py-3 border border-ecogreen text-ecogreen rounded-lg font-semibold hover:bg-ecogreen hover:text-white transition text-lg">Register</a>
         </section>
 
@@ -136,7 +155,7 @@
     <!-- Footer -->
     <footer class="bg-ecogreen border-t py-8 mt-16">
         <div class="max-w-7xl mx-auto px-4">
-            <ul class="flex flex-wrap justify-center gap-8 mb-6 text-white border-b border-ecoyellow pb-4">
+            <ul class="flex flex-wrap justify-center gap-8 mb-6 text-gray-900 border-b border-ecoyellow pb-4">
                 <li><a href="{{ url('/') }}" class="hover:text-ecoyellow transition">Home</a></li>
                 <li><a href="{{ url('/schedules') }}" class="hover:text-ecoyellow transition">Schedules</a></li>
                 <li><a href="{{ url('/guidelines') }}" class="hover:text-ecoyellow transition">Guidelines</a></li>

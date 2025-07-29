@@ -18,7 +18,7 @@
                         <span class="font-bold text-green-700 text-xl">EcoTrack</span>
                     </a>
                     <a href="{{ route('resident.home') }}" class="text-gray-700 hover:text-green-700 px-3 py-2 rounded transition">Home</a>
-                    <a href="#" class="text-gray-700 hover:text-green-700 px-3 py-2 rounded transition">Schedules</a>
+                    <a href="{{ route('resident.schedules') }}" class="text-gray-700 hover:text-green-700 px-3 py-2 rounded transition">Schedules</a>
                     <a href="#" class="text-gray-700 hover:text-green-700 px-3 py-2 rounded transition">My Requests</a>
                 </div>
                 <div class="flex items-center space-x-4">
