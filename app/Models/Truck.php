@@ -17,11 +17,10 @@ class Truck extends Model
     protected $fillable = [
         'plate_number',
         'model',
-        'capacity',
-        'driver_name',
+        'driver_last_name',
+        'driver_first_name',
         'contact_number',
         'status',
-        'notes',
     ];
 
     /**
