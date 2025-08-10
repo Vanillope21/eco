@@ -14,9 +14,9 @@ class Schedule extends Model
         'description',
         'barangay_id',
         'waste_type_id',
-        'day_of_week_id',
+        'day_of_week',
         'pickup_time',
-        'status_id',
+        'status',
         'truck_id',
     ];
 
@@ -34,15 +34,6 @@ class Schedule extends Model
         return $this->belongsTo(WasteType::class);
     }
 
-    public function dayOfWeek()
-    {
-        return $this->belongsTo(DayOfWeek::class);
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(BarangayStatus::class, 'status_id');
-    }
 
     public function truck()
     {

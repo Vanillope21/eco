@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Console\Scheduling\Schedule;
 
 class Kernel extends HttpKernel
 {
@@ -62,4 +63,14 @@ class Kernel extends HttpKernel
         // Register your new role middleware here:
         'role' => \App\Http\Middleware\RoleMiddleware::class,
     ];
+
+    protected $commands = [
+        \App\Console\Commands\GenerateScheduledCollections::class,
+    ];
+
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('collections:generate-daily')->dailyAt('07:30');
+    }
 }
+

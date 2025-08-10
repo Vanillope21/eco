@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ScheduleCollectionController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Schedule;
 use App\Models\Barangay;
 use App\Livewire\Resident\Schedules;
+use App\Livewire\Admin\TruckScheduleManager;
+use App\Livewire\Admin\CollectionManager;
 
 Route::get('/', function () {
     return view('welcome');
@@ -116,6 +119,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/resident/schedules', Schedules::class)->name('resident.schedules');
 });
 
+
 //superadmin routes usermanangement
 // Route::middleware(['auth', 'can:manage-users'])->group(function () {
 //     Route::get('/superadmin/users', UserManagement::class)->name('superadmin.users');
@@ -138,6 +142,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/barangay-management', \App\Livewire\Admin\BarangayManagement::class)
         ->name('admin.barangay.management');
 });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/truck-management', App\Livewire\Admin\TruckManagement::class)
+        ->name('admin.truck.management');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/truck-route-assignment', \App\Livewire\Admin\TruckRouteAssignment::class)
+        ->name('admin.truck.route.assignment');
+    Route::get('/admin/truck-schedule-manager', TruckScheduleManager::class)
+        ->name('admin.truck.schedule.manager');
+    Route::get('/admin/collection-management', CollectionManager::class)
+        ->name('admin.collection-management');
+});
+
 
 //routes for Barangay Officials
 Route::middleware(['auth'])->group(function () {
@@ -145,5 +162,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/barangay/schedules', ScheduleManagement::class)->name('barangay.schedules');
     Route::get('/barangay/requests', HouseholdRequests::class)->name('barangay.requests');
 });
+// Route::middleware(['auth', 'role:barangay_official'])->group(function () {
+//     Route::get('/barangay/scheduled-collections', [Barangay])
+// })
+
+//route for schedule collections
+Route::get('/schedule-collections', [ScheduleCollectionController::class, 'index'])
+    ->middleware('auth');
 
 require __DIR__.'/auth.php';

@@ -30,4 +30,16 @@ class Truck extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
+    public function routes()
+    {
+        return $this->hasMany(\App\Models\TruckRoute::class);
+    }
+
+    public function maintenences()
+    {
+        return $this->hasMany(TruckMaintenance::class);
+    }
+    
+    public $timestamps = false; // Disable timestamps if not needed
 }

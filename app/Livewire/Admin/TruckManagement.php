@@ -5,21 +5,25 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Truck;
 
-class TruckManagemnet extends Component
+class TruckManagement extends Component
 {
-    public $trucks, $plate_number, $driver_name, $model, $status = 'active', $editingId= null, $showModal = false;
+    public $trucks, $plate_number, $driver_last_name, $driver_first_name, $model, $contact_number, $status = 'active', $editingId= null, $showModal = false;
 
     protected $rules=[
-        'plate_number' => 'required/unique:trucks,plate_number',
-        'driver_name' => 'required',
+        'plate_number' => 'required|unique:trucks,plate_number',
+        'driver_last_name' => 'required',
+        'driver_first_name' => 'required',
         'model' => 'required',
-        'status' => 'required/in:active,inactive',
+        'contact_number' => [
+            'required',
+            'regex:/^(\+63|63|0)9\d{9}$/'],
+        'status' => 'required|in:active,inactive',
     ];
 
     public function render()
     {
-        $this->trucks = Truck::orderBy('created_at', 'desc')->get();
-        return view('livewire.admin.truck-managemnet');
+        $this->trucks = Truck::orderBy('id', 'desc')->get();
+        return view('livewire.admin.truck-management');
     }
 
     public function showCreateModal()
@@ -28,13 +32,15 @@ class TruckManagemnet extends Component
         $this->showModal = true;
     }
 
-    public function showeditModal($id)
+    public function showEditModal($id)
     {
         $truck = Truck::findOrFail($id);
         $this->editingId = $truck->id;
         $this->plate_number = $truck->plate_number;
-        $this->driver_name = $truck->driver_name;
+        $this->driver_last_name = $truck->driver_last_name;
+        $this->driver_first_name = $truck->driver_first_name;
         $this->model = $truck->model;
+        $this->contact_number = $truck->contact_number;
         $this->status = $truck->status;
         $this->showModal = true;
     }
@@ -43,7 +49,7 @@ class TruckManagemnet extends Component
     {
         $rules = $this->rules;
         if ($this->editingId) {
-            $rules['plate_number'] .= ',' . $this->editingId; 
+            $rules['plate_number'] = 'required|unique:trucks,plate_number,' . $this->editingId; 
         }
         $this->validate($rules);
 
@@ -51,8 +57,10 @@ class TruckManagemnet extends Component
             ['id' => $this->editingId],
             [
                 'plate_number' => $this->plate_number,
-                'driver_name' => $this->driver_name,
+                'driver_last_name' => $this->driver_last_name,
+                'driver_first_name' => $this->driver_first_name,
                 'model' => $this->model,
+                'contact_number' => $this->contact_number,
                 'status' => $this->status,
             ]
         );
@@ -77,8 +85,10 @@ class TruckManagemnet extends Component
     {
         $this->editingId = null;
         $this->plate_number = '';
-        $this->driver_name = '';
+        $this->driver_last_name = '';
+        $this->driver_first_name = '';
         $this->model = '';
+        $this->contact_number = '';
         $this->status = 'active';
     }
 }

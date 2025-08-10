@@ -14,8 +14,10 @@
         <thead>
             <tr>
                 <th class="px-6 py-3">Plate Number</th>
-                <th class="px-6 py-3">Driver Name</th>
+                <th class="px-6 py-3">Driver Last Name</th>
+                <th class="px-6 py-3">Driver First Name</th>
                 <th class="px-6 py-3">Model</th>
+                <th class="px-6 py-3">Contact Number</th>
                 <th class="px-6 py-3">Status</th>
                 <th class="px-6 py-3">Actions</th>
             </tr>
@@ -24,8 +26,10 @@
             @foreach($trucks as $truck)
                 <tr>
                     <td class="px-6 py-4">{{ $truck->plate_number }}</td>
-                    <td class="px-6 py-4">{{ $truck->driver_name }}</td>
+                    <td class="px-6 py-4">{{ $truck->driver_last_name }}</td>
+                    <td class="px-6 py-4">{{ $truck->driver_first_name }}</td>
                     <td class="px-6 py-4">{{ $truck->model }}</td>
+                    <td class="px-6 py-4">{{ $truck->contact_number }}</td>
                     <td class="px-6 py-4">{{ ucfirst($truck->status) }}</td>
                     <td class="px-6 py-4">
                         <button wire:click="showEditModal({{ $truck->id }})" class="text-blue-600 mr-2"> Edit</button>
@@ -49,14 +53,24 @@
                         @error('plate_number') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror 
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium">Driver Name</label>
-                        <input type="text" wire:model="driver_name" class="w-full border rounded px-2 py-1">
-                        @error('driver_name') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
+                        <label class="block text-sm font-medium">Driver Last Name</label>
+                        <input type="text" wire:model="driver_last_name" class="w-full border rounded px-2 py-1">
+                        @error('driver_last_name') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
+                    </div>
+                     <div class="mb-4">
+                        <label class="block text-sm font-medium">Driver First Name</label>
+                        <input type="text" wire:model="driver_first_name" class="w-full border rounded px-2 py-1">
+                        @error('driver_first_name') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium">Model</label>
                         <input type="text" wire:model="model" class="w-full border rounded px-2 py-1">
                         @error('model') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium">Contact Number</label>
+                        <input type="text" wire:model="contact_number" class="w-full border rounded px-2 py-1">
+                        @error('contact_number') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium">Status</label>

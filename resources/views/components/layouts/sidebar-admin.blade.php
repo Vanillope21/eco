@@ -81,8 +81,11 @@
                         <a href="{{ route('admin.barangay.management') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             List of Barangays
                         </a>
-                        <a href="{{ route('admin.schedule-management') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                        <a href="{{ route('admin.truck.schedule.manager') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Schedules Management
+                        </a>
+                        <a href="{{ route('admin.collection-management') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                            Collection Management
                         </a>
                     </div>
                 </div>
@@ -112,7 +115,7 @@
                         <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Live Location View
                         </a>
-                        <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                        <a href="{{ route('admin.truck.route.assignment') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Assign Routes
                         </a>
                         <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
@@ -175,8 +178,8 @@
                         <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Truck Maintenance
                         </a>
-                        <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
-                            Number of Trucks
+                        <a href="{{ route('admin.truck.management') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                            Truck Management
                         </a>
                     </div>
                 </div>
