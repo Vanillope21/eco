@@ -153,6 +153,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.truck.schedule.manager');
     Route::get('/admin/collection-management', CollectionManager::class)
         ->name('admin.collection-management');
+    Route::get('/admin/truck-maintenance', \App\Livewire\Admin\TruckMaintenanceManager::class)
+        ->name('admin.truck-maintenance');
 });
 
 

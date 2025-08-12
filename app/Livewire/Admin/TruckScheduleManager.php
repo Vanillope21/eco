@@ -7,6 +7,7 @@ use App\Models\Truck;
 use App\Models\Barangay;
 use App\Models\WasteType;
 use App\Models\Schedule;
+use App\Models\TruckMaintenance;
 use Illuminate\Support\Facades\Auth;
 
 class TruckScheduleManager extends Component
@@ -65,6 +66,20 @@ class TruckScheduleManager extends Component
             return;
         }
 
+        //Check if truck is inactive maintenence
+        $activeMainteneces = TruckMaintenance::where('truck_id', $this->truck_id)
+            ->where('start_date', '<=', now())
+            ->where(function($q){
+                $q->whereNull('end_date')->orwhere('end_date', '>=', now());
+            })
+            ->exists();
+
+        if($activeMainteneces){
+            session()->flash('error', 'This truck is currently under maintenanceand cannot be schedules.');
+            return;
+        }
+
+        //create schedul for each selected day
         foreach ($this->selectedDays as $day){
             Schedule::create([
                 'truck_id' => $this->truck_id,
