@@ -8,6 +8,8 @@ use App\Models\Barangay;
 use App\Models\WasteType;
 use App\Models\Schedule;
 use App\Models\TruckMaintenance;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 
 class TruckScheduleManager extends Component
@@ -67,20 +69,48 @@ class TruckScheduleManager extends Component
         }
 
         //Check if truck is inactive maintenence
-        $activeMainteneces = TruckMaintenance::where('truck_id', $this->truck_id)
-            ->where('start_date', '<=', now())
-            ->where(function($q){
-                $q->whereNull('end_date')->orwhere('end_date', '>=', now());
-            })
-            ->exists();
+        foreach ($this->selectedDays as $day) {
+            //Create a range for the next 3 months 
+            $start = now();
+            $end = now()->addMonths(3);
+            $period = CarbonPeriod::create($start, $end);
 
-        if($activeMainteneces){
-            session()->flash('error', 'This truck is currently under maintenanceand cannot be schedules.');
-            return;
+            foreach ($period as $date) {
+                # only check if this date matches the selected day
+                if ($date->format('l') === $day) {
+                    if ((new Schedule)->truckHasActiveMaintenance($this->truck_id, $date)) {
+                        session()->flash('error', "Truck is under maintenance on {$date->format('l, F j Y')}. Schedule Not saved.");
+                        return;
+                    }
+                }
+            } 
         }
+        // $activeMainteneces = TruckMaintenance::where('truck_id', $this->truck_id)
+        //     ->where('start_date', '<=', now())
+        //     ->where(function($q){
+        //         $q->whereNull('end_date')->orwhere('end_date', '>=', now());
+        //     })
+        //     ->exists();
+
+        // if($activeMainteneces){
+        //     session()->flash('error', 'This truck is currently under maintenanceand cannot be schedules.');
+        //     return;
+        // }
 
         //create schedul for each selected day
         foreach ($this->selectedDays as $day){
+
+            $exists = Schedule::where('truck_id', $this->truck_id)
+                ->where('barangay_id', $this->barangay_id)
+                ->where('waste_type_id', $this->waste_type_id)
+                ->where('pickup_time', $this->pickup_time)
+                ->where('day_of_week', $day)
+                ->exists();
+
+            if ($exists) {
+                # skip creating duplicate schedule
+                continue;
+            }
             Schedule::create([
                 'truck_id' => $this->truck_id,
                 'barangay_id' => $this->barangay_id,
@@ -92,7 +122,7 @@ class TruckScheduleManager extends Component
         }
         
 
-        session()->flash('message', 'Schedule added sauccessfully!');
+        session()->flash('message', 'Schedule added successfully!');
         $this->reset(['truck_id', 'barangay_id', 'waste_type_id', 'pickup_time', 'selectedDays', 'status']);
         $this->status= 'active';
         $this->loadSchedules();

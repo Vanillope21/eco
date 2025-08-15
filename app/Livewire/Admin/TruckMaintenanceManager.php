@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Schedule;
 use Livewire\Component;
 use App\Models\TruckMaintenance;
 use App\Models\Truck;
@@ -44,7 +45,7 @@ class TruckMaintenanceManager extends Component
             'notes' => 'nullable|string',
         ]);
 
-        TruckMaintenance::updateOrCreate(
+        $maintenance = TruckMaintenance::updateOrCreate(
             ['id' => $this->selectedMaintenanceId],
             [
                 'truck_id' => $this->truck_id,
@@ -55,6 +56,19 @@ class TruckMaintenanceManager extends Component
             ]
         );
 
+        //Check if maintenance is active today or in the future
+        $today = now()->startOfDay();
+
+        if($maintenance->start_date <= $today && is_null($maintenance->end_date) || $maintenance->end_date >= $today){
+
+            //Option 1: mark all future schedules as "pending_reassignment"
+            Schedule::where('truck_id', $maintenance->truck_id)
+                ->whereDate('collection_date', '>=', $today)
+                ->update(['status' => 'pending_reassignment']);
+                
+            //OPtion 2:Auto reassign
+            //$this->autoReassignSchedules($maintenance->truck_id);
+        }
         // Mark truck as in maintenance
         Truck::where('id', $this->truck_id)->update(['status' => 'in_maintenance']);
 
@@ -62,6 +76,36 @@ class TruckMaintenanceManager extends Component
         $this->loadMaintenances();
         session()->flash('message', 'Maintenance record saved.');
 
+    }
+
+    public function autoReassignSchedules($unavailableTruckId)
+    {
+        $today = now()->startOfDay();
+
+        $schedules = Schedule::where('truck_id', $unavailableTruckId)
+            ->whereDate('collection_date', '>=', $today)
+            ->get();
+        
+        foreach($schedules as $schedule) {
+            $replacementTruck = Truck::where('status', 'available')
+                ->whereDoesntHave('maintenances', function($q) use ($today){
+                    $q->where('start_date', '<=', $today)
+                        ->where(function($query) use ($today){
+                            $query->whereNull('end_date')
+                                ->orWhere('end_date', '>=', $today);
+                        });
+                })
+                ->first();
+            
+            if ($replacementTruck) {
+                $schedule->truck_id = $replacementTruck->id;
+                $schedule->status = 'active';
+                $schedule->save();
+            } else {
+                $schedule->status = 'pending_reassignment';
+                $schedule->save();
+            }
+        }
     }
 
     public function closeMaintenance($id)
