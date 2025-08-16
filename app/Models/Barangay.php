@@ -35,6 +35,11 @@ class Barangay extends Model
         return $this->hasMany(Schedule::class);
     }
 
+    public function truckRoutes()
+    {
+        return $this->hasMany(\App\Models\TruckRoute::class);
+    }
+
     /**
      * Get the full name of the contact person
      */

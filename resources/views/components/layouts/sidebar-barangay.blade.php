@@ -88,6 +88,9 @@
                         <a href="{{ route('barangay.schedules')}}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Schedule Info
                         </a>
+                        <a href="{{ route('barangay.scheduled_collections.index') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                            Scheduled Collections
+                        </a>
                     </div>
                 </div>
 

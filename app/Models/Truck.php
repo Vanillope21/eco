@@ -17,11 +17,10 @@ class Truck extends Model
     protected $fillable = [
         'plate_number',
         'model',
-        'capacity',
-        'driver_name',
+        'driver_last_name',
+        'driver_first_name',
         'contact_number',
         'status',
-        'notes',
     ];
 
     /**
@@ -31,4 +30,16 @@ class Truck extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
+    public function routes()
+    {
+        return $this->hasMany(\App\Models\TruckRoute::class);
+    }
+
+    public function maintenences()
+    {
+        return $this->hasMany(TruckMaintenance::class);
+    }
+    
+    public $timestamps = false; // Disable timestamps if not needed
 }

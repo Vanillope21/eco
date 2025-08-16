@@ -25,7 +25,11 @@
                 </x-layouts.sidebar-super-admin>
             @elseif(auth()->user()->isAdmin())
                 <x-layouts.sidebar-admin>
-                    @yield('content', $slot ?? '')
+                   @if(isset($slot))
+                        {{ $slot }}
+                    @else
+                        @yield('content')
+                    @endif
                 </x-layouts.sidebar-admin>
             @elseif(auth()->user()->isBarangayOfficial())
                 <x-layouts.sidebar-barangay>
@@ -51,5 +55,6 @@
         @endauth
     </div>
     @livewireScripts
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script>
 </body>
 </html>
