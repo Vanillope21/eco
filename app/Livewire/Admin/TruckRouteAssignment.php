@@ -18,37 +18,72 @@ class TruckRouteAssignment extends Component
 
     public function mount()
     {
-        $this->trucks = \App\Models\Truck::all();
-        $this->assignedBarangays = [];
-        $this->availableBarangays = [];
+        $this->trucks = Truck::all();
+        $this->assignedBarangays = collect();
+        $this->availableBarangays = Barangay::all();
     }
 
-    public function updatedSelectedTruck()
+    public function updatedSelectedTruck($value)
     {
+        //for debug
+        // logger()->info('Truck selection changed to:', [$value]);
+
+        $this->selectedTruck = (int) $value;
+        $this->newBarangayId = '';
+        $this->availableBarangays = [];
+        $this->availableBarangays = [];
         $this->loadBarangays();
     }
 
     public function loadBarangays()
     {
-        $this->assignedBarangays = TruckRoute::with('barangay')
-            ->where('truck_id', $this->selectedTruck)
+        $truckId = (int) $this->selectedTruck;
+        if(!$truckId){
+            //No truck selected -> show all barangays
+            $this->assignedBarangays = [];
+            $this->availableBarangays = Barangay::orderBy('name')->get()->all();
+
+            //Debugging when no truck is selected
+            logger()->info('Available Barangays (no truck selected):', (array) $this->availableBarangays);
+            return;
+        }
+
+        //get assigned barangays for this truck
+        $assigned = TruckRoute::with('barangay')
+            ->where('truck_id', $truckId)
             ->orderBy('route_order')
             ->get(); 
 
-        $assignedIds = $this->assignedBarangays->pluck('barangay_id')->toArray();
-        $this->availableBarangays = Barangay::whereNotIn('id', $assignedIds)->get();
+        $this->assignedBarangays = $assigned->all();
+
+        $assignedIds = $assigned->pluck('barangay_id')->toArray();
+
+        //Debugging assigned barangays
+        logger()->info('Selected Truck:', [$this->selectedTruck]);
+        logger()->info('Assigned Barangay IDs:', $assignedIds);
+        logger()->info('All Barangays:', Barangay::pluck('id', 'name')->toArray());
+
+        $this->availableBarangays = Barangay::whereNotIn('id', $assignedIds)
+            ->orderBy('name')
+            ->get()
+            ->all();
+
+        //debugging available barangays after filtering
+        logger()->info('Available Barangays (after filter:', (array) $this->availableBarangays);
     }
 
     public function addBarangay()
     {
-        if($this->selectedTruck && $this->newBarangayId) {
-            $order = TruckRoute::where('truck_id', $this->selectedTruck)->max('route_order') + 1;
+        $truckId = (int) $this->selectedTruck;
+        if($truckId && $this->newBarangayId) {
+            $order = (int) TruckRoute::where('truck_id', $truckId)->max('route_order');
+            $order = $order ? $order + 1 : 1;
             TruckRoute::create([
-                'truck_id' => $this->selectedTruck,
-                'barangay_id' => $this->newBarangayId,
+                'truck_id' => $truckId,
+                'barangay_id' => (int) $this->newBarangayId,
                 'route_order' => $order,
             ]);
-            $this->newBarangayId = null;
+            $this->newBarangayId = '';
             $this->loadBarangays();
         }
     }
@@ -62,6 +97,7 @@ class TruckRouteAssignment extends Component
     public function render()
     {
         //  dd('Component rendered'); 
+        //dd($assignedIds, Barangay::pluck('id')->toArray());
         return view('livewire.admin.truck-route-assignment');
     }
 }
