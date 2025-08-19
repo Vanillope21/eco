@@ -38,11 +38,8 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Person</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Number</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Captain</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
@@ -51,17 +48,17 @@
                 @forelse ($barangays as $barangay)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap">{{ $barangay->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $barangay->description }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $barangay->location }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $barangay->contact_firstname }} {{ $barangay->contact_lastname }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $barangay->contact_number }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $barangay->email }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $barangay->captain?->full_name ?? 'N/A' }}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $barangay->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                 {{ ucfirst($barangay->status ?? 'active') }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button wire:click="view({{ $barangay->id }})" class="text-gray-600 hover:text-gray-900 mr-3">View</button>
                             <button wire:click="edit({{ $barangay->id }})" class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
                             <button wire:click="delete({{ $barangay->id }})"
                                 onclick="return confirm('Are you sure you want to delete this barangay?')" class="text-red-600 hover:text-red-900">Delete</button>
@@ -85,69 +82,196 @@
 
     <!-- Modal -->
     @if($showModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center">
-            <div class="absolute inset-0 bg-black bg-opacity-70 modal-backdrop" wire:click="closeModal"></div>
-            <div class="glass-modal rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto z-10 relative shadow-xl">
-                <div class="flex justify-between items-start mb-4 sticky top-0 bg-transparent z-10 pb-4">
-                    <h2 class="text-xl font-semibold text-gray-900">{{ $editingBarangayId ? 'Edit Barangay' : 'Add New Barangay' }}</h2>
-                    <button wire:click="closeModal" class="text-gray-400 hover:text-gray-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
+        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl p-6">
+                <h2 class="text-xl font-bold mb-4">
+                    {{ $editingBarangayId ? 'Edit Barangay' : 'Add Barangay' }}
+                </h2>
+
                 <form wire:submit.prevent="save" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Name & Description -->
+                    <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Name *</label>
-                            <input type="text" wire:model="name" class="mt-1 block w-full rounded-md soft-input shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter barangay name">
-                            @error('name') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
+                            <label class="block text-sm font-medium">Name</label>
+                            <input type="text" wire:model="name" class="w-full border rounded p-2">
+                            @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Description</label>
-                            <input type="text" wire:model="description" class="mt-1 block w-full rounded-md soft-input shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter description (optional)">
-                            @error('description') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Location</label>
-                            <input type="text" wire:model="location" class="mt-1 block w-full rounded-md soft-input shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter location (optional)">
-                            @error('location') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact First Name *</label>
-                            <input type="text" wire:model="contact_firstname" class="mt-1 block w-full rounded-md soft-input shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter contact first name">
-                            @error('contact_firstname') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Last Name *</label>
-                            <input type="text" wire:model="contact_lastname" class="mt-1 block w-full rounded-md soft-input shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter contact last name">
-                            @error('contact_lastname') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number *</label>
-                            <input type="text" wire:model="contact_number" class="mt-1 block w-full rounded-md soft-input shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter contact number">
-                            @error('contact_number') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" wire:model="email" class="mt-1 block w-full rounded-md soft-input shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter email (optional)">
-                            @error('email') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Status *</label>
-                            <select wire:model="status" class="mt-1 block w-full rounded-md soft-input shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                            @error('status') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
+                            <label class="block text-sm font-medium">Description</label>
+                            <input type="text" wire:model="description" class="w-full border rounded p-2">
                         </div>
                     </div>
-                    <div class="flex justify-end space-x-2 pt-4">
-                        <button type="button" wire:click="closeModal" class="px-4 py-2 bg-zinc-700 text-gray-300 rounded-lg hover:bg-zinc-600 transition-colors duration-200">Cancel</button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">{{ $editingBarangayId ? 'Update Barangay' : 'Create Barangay' }}</button>
+
+                    <!-- Location & Address -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Location</label>
+                            <input type="text" wire:model="location" class="w-full border rounded p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Address</label>
+                            <input type="text" wire:model="address" class="w-full border rounded p-2">
+                        </div>
+                    </div>
+
+                    <!-- Latitude & Longitude -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Latitude</label>
+                            <input type="text" wire:model="latitude" class="w-full border rounded p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Longitude</label>
+                            <input type="text" wire:model="longitude" class="w-full border rounded p-2">
+                        </div>
+                    </div>
+
+                    <!-- Contact Person -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Contact Firstname</label>
+                            <input type="text" wire:model="contact_firstname" class="w-full border rounded p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Contact Lastname</label>
+                            <input type="text" wire:model="contact_lastname" class="w-full border rounded p-2">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Contact Number</label>
+                            <input type="text" wire:model="contact_number" class="w-full border rounded p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Email</label>
+                            <input type="email" wire:model="email" class="w-full border rounded p-2">
+                        </div>
+                    </div>
+
+                    <!-- Captain -->
+                    <div>
+                        <label class="block text-sm font-medium">Captain</label>
+                        <select wire:model="captain_id" class="w-full border rounded p-2">
+                            <option value="">-- Select Captain --</option>
+                            @foreach($captains as $captain)
+                                <option value="{{ $captain->id }}">{{ $captain->full_name }}</option>
+                            @endforeach
+                        </select>
+                        @error('captain_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <!-- Status -->
+                    <div>
+                        <label class="block text-sm font-medium">Status</label>
+                        <select wire:model="status" class="w-full border rounded p-2">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex justify-end gap-2 mt-6">
+                        <button type="button" wire:click="closeModal"
+                                class="px-4 py-2 bg-gray-300 rounded">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded">
+                            Save
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     @endif
-</div> 
+
+    @if ($showViewModal && $viewBarangay)
+        <div class="fixed inset-0 z-50 flex items-center justify-center">
+            <div class="absolute inset-0 bg-black bg-opacity-70" wire:click="closeViewModal"></div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto z-10 relative">
+
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-4 border-b pb-3 mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Barangay Details</h2>
+                    <button wire:click="closeViewModal" class="text-gray-400 hover:text-gray-600">
+                        ✖
+                    </button>
+                </div>
+
+                <!-- Details Grid -->
+                <div class="grid grid-cols-2 text-sm space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-600">Name</h3>
+                        <p class="text-gray-900">{{ $viewBarangay->name }}</p>
+                    </div>
+
+                    <!-- Captain -->
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Barangay Captain</h3>
+                        <p class="text-gray-900">
+                            {{ $viewBarangay->captain?->first_name }} {{ $viewBarangay->captain?->last_name }} 
+                        </p>
+                    </div>
+                    
+                    <div class="col-span-2">
+                        <h3 class="font-medium text-gray-600">Description</h3>
+                        <p class="text-gray-900">{{ $viewBarangay->description }}</p>
+                    </div>
+
+                    <div class="col-span-2">
+                        <h3 class="text-sm font-medium text-gray-500">Location</h3>
+                        <p class="text-gray-900">{{ $viewBarangay->location }}</p>
+                    </div>
+
+                    <!-- Contact Person -->
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Contact Person</h3>
+                        <p class="text-gray-900">{{ $viewBarangay->contact_firstname }} {{ $viewBarangay->contact_lastname }}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Contact Number</h3>
+                        <p class="text-gray-900">{{ $viewBarangay->contact_number }}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Email</h3>
+                        <p class="text-gray-900">{{ $viewBarangay->email }}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Status</h3>
+                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full
+                            {{ $viewBarangay->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            {{ ucfirst($viewBarangay->status ?? 'active') }}
+                        </span>
+                    </div>
+
+                    <!-- Map -->
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Map Location</h3>
+                        @if ($viewBarangay->latitude && $viewBarangay->longitude)
+                            <iframe
+                                class="rounded-lg shadow"
+                                width="100%"
+                                height="250"
+                                frameborder="0"
+                                style="border:0"
+                                src="https://maps.google.com/maps?q={{ $viewBarangay->latitude }},{{ $viewBarangay->longitude }}&z=15&output=embed"
+                                allowfullscreen>
+                            </iframe>
+                        @else
+                            <p class="text-gray-500">No map location available</p>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="flex justify-end mt-6">
+                    <button wire:click="closeViewModal" class="px-4 py-2 bg-zinc-700 text-gray-300 rounded-lg hover:bg-zinc-600 transition-colors duration-200">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+</div>    

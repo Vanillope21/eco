@@ -40,6 +40,11 @@ class Barangay extends Model
         return $this->hasMany(\App\Models\TruckRoute::class);
     }
 
+    public function captain()
+    {
+        return $this->belongsTo(User::class, 'captain_id');
+    }
+
     /**
      * Get the full name of the contact person
      */
