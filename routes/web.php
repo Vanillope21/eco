@@ -15,7 +15,7 @@ use App\Models\Barangay;
 use App\Livewire\Resident\Schedules;
 use App\Livewire\Admin\TruckScheduleManager;
 use App\Livewire\Admin\CollectionManager;
-
+use App\Livewire\Admin\LiveLocation;
 
 Route::get('/', function () {
     return view('welcome');
@@ -157,6 +157,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.collection-management');
     Route::get('/admin/truck-maintenance', \App\Livewire\Admin\TruckMaintenanceManager::class)
         ->name('admin.truck-maintenance');
+    Route::get('/admin/live-location', LiveLocation::class)
+        ->name('admin.live-location');
 });
 
 

@@ -40,6 +40,16 @@ class Truck extends Model
     {
         return $this->hasMany(TruckMaintenance::class);
     }
+
+    public function locations()
+    {
+        return $this->hasMany(TruckLocation::class);
+    }
+
+    public function latestLocation()
+    {
+        return $this->hasOne(Trucklocation::class)->latestOfMany();
+    }
     
     public $timestamps = false; // Disable timestamps if not needed
 }
