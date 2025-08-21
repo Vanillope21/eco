@@ -54,10 +54,10 @@ class Dashboard extends Component
         })->count();
         
         // Schedule status counts
-        $activeStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'active')->value('id');
-        $inactiveStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'inactive')->value('id');
-        $this->activeSchedules = Schedule::where('status_id', $activeStatusId)->count();
-        $this->inactiveSchedules = Schedule::where('status_id', $inactiveStatusId)->count();
+        //$activeStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'active')->value('id');
+        //$inactiveStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'inactive')->value('id');
+        $this->activeSchedules = Schedule::where('status', 'active')->count();
+        $this->inactiveSchedules = Schedule::where('status', 'inactive')->count();
         
         // Recent requests
         $this->recentRequests = HouseholdRequest::with(['barangay', 'processedBy'])
@@ -124,21 +124,21 @@ class Dashboard extends Component
 
     private function getScheduleStats()
     {
-        $activeStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'active')->value('id');
-        $inactiveStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'inactive')->value('id');
+        //$activeStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'active')->value('id');
+        //$inactiveStatusId = \App\Models\BarangayStatus::where('barangay_status_name', 'inactive')->value('id');
         return [
             'total' => Schedule::count(),
-            'active' => Schedule::where('status_id', $activeStatusId)->count(),
-            'inactive' => Schedule::where('status_id', $inactiveStatusId)->count(),
+            'active' => Schedule::where('status', 'active')->count(),
+            'inactive' => Schedule::where('status', 'inactive')->count(),
             'by_waste_type' => Schedule::select('waste_type_id', DB::raw('count(*) as count'))
                 ->groupBy('waste_type_id')
                 ->get()
                 ->pluck('count', 'waste_type_id')
                 ->toArray(),
-            'by_day' => Schedule::select('day_of_week_id', DB::raw('count(*) as count'))
-                ->groupBy('day_of_week_id')
+            'by_day' => Schedule::select('day_of_week', DB::raw('count(*) as count'))
+                ->groupBy('day_of_week')
                 ->get()
-                ->pluck('count', 'day_of_week_id')
+                ->pluck('count', 'day_of_week')
                 ->toArray(),
         ];
     }
@@ -202,10 +202,10 @@ class Dashboard extends Component
                 ->get()
                 ->pluck('count', 'waste_type_id')
                 ->toArray(),
-            'by_day' => Schedule::select('day_of_week_id', DB::raw('count(*) as count'))
-                ->groupBy('day_of_week_id')
+            'by_day' => Schedule::select('day_of_week', DB::raw('count(*) as count'))
+                ->groupBy('day_of_week')
                 ->get()
-                ->pluck('count', 'day_of_week_id')
+                ->pluck('count', 'day_of_week')
                 ->toArray(),
         ];
     }

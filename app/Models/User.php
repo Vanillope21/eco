@@ -95,7 +95,7 @@ class User extends Authenticatable
      */
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     /**
@@ -201,4 +201,10 @@ class User extends Authenticatable
     {
         return $this->household_id !== null;
     }
+
+    public function barangayAsCaptain()
+    {
+        return $this->hasOne(Barangay::class, 'captain_id');
+    }
+
 }
