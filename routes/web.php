@@ -8,12 +8,14 @@ use App\Livewire\SuperAdmin\UserManagement;
 use App\Livewire\Barangay\ScheduleManagement;
 use App\Livewire\Barangay\Dashboard;
 use App\Livewire\Barangay\HouseholdRequests;
+use App\Livewire\Barangay\BarangayContacts;
 use Illuminate\Support\Facades\Route;
 use App\Models\Schedule;
 use App\Models\Barangay;
 use App\Livewire\Resident\Schedules;
 use App\Livewire\Admin\TruckScheduleManager;
 use App\Livewire\Admin\CollectionManager;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -163,6 +165,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/barangay/dashboard', Dashboard::class)->name('barangay.dashboard');
     Route::get('/barangay/schedules', ScheduleManagement::class)->name('barangay.schedules');
     Route::get('/barangay/requests', HouseholdRequests::class)->name('barangay.requests');
+    Route::get('/barangay/contacts', BarangayContacts::class)->name('barangay.contacts');
 });
 // Route::middleware(['auth', 'role:barangay_official'])->group(function () {
 //     Route::get('/barangay/scheduled-collections', [Barangay])

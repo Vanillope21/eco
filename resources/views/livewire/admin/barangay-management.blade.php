@@ -38,7 +38,6 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Captain</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -48,7 +47,6 @@
                 @forelse ($barangays as $barangay)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap">{{ $barangay->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $barangay->location }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             {{ $barangay->captain?->full_name ?? 'N/A' }}
                         </td>
@@ -102,12 +100,8 @@
                         </div>
                     </div>
 
-                    <!-- Location & Address -->
+                    <!-- Address -->
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium">Location</label>
-                            <input type="text" wire:model="location" class="w-full border rounded p-2">
-                        </div>
                         <div>
                             <label class="block text-sm font-medium">Address</label>
                             <input type="text" wire:model="address" class="w-full border rounded p-2">
@@ -123,29 +117,6 @@
                         <div>
                             <label class="block text-sm font-medium">Longitude</label>
                             <input type="text" wire:model="longitude" class="w-full border rounded p-2">
-                        </div>
-                    </div>
-
-                    <!-- Contact Person -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium">Contact Firstname</label>
-                            <input type="text" wire:model="contact_firstname" class="w-full border rounded p-2">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium">Contact Lastname</label>
-                            <input type="text" wire:model="contact_lastname" class="w-full border rounded p-2">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium">Contact Number</label>
-                            <input type="text" wire:model="contact_number" class="w-full border rounded p-2">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium">Email</label>
-                            <input type="email" wire:model="email" class="w-full border rounded p-2">
                         </div>
                     </div>
 
@@ -226,18 +197,32 @@
                     </div>
 
                     <!-- Contact Person -->
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500">Contact Person</h3>
-                        <p class="text-gray-900">{{ $viewBarangay->contact_firstname }} {{ $viewBarangay->contact_lastname }}</p>
+
+                    <div class="mt-4">
+                        <h3 class="test-sm font-medium text-gray-500">Contact Persons</h3>
+
+                        @if ($viewBarangay->contacts && $viewBarangay->contacts->count() > 0)
+                            <div class="space-y-3 mt-2">
+                                @foreach ($viewbarangay->conatcts as $contact)
+                                    <div class="border rounded-lg p-3 bg-gray-50">
+                                        <p class="text-gray-900 font-semibold">
+                                            {{ $contact->firstname }} {{ $contatct->lastname }}
+                                        </p>
+                                        <p class="text-gray-700">
+                                            <span class="font-medium">Number:</span> {{ $contact->contact_number }}
+                                        </p>
+                                        <p class="text-gray-700">
+                                            <span class="font-medium">Email:</span> {{ $contact->email ?? 'N/A' }}
+                                        </p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-gray-500 italic mt-2">No cantact persons assigned yet by this barangay.</p>
+                        @endif
                     </div>
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500">Contact Number</h3>
-                        <p class="text-gray-900">{{ $viewBarangay->contact_number }}</p>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500">Email</h3>
-                        <p class="text-gray-900">{{ $viewBarangay->email }}</p>
-                    </div>
+
+
                     <div>
                         <h3 class="text-sm font-medium text-gray-500">Status</h3>
                         <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full

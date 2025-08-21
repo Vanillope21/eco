@@ -251,6 +251,12 @@
                 </div>
             </div>
 
+            <a href="{{ route('barangay.contacts') }}" 
+                class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md">
+                <span class="material-icons mr-2">contacts</span>
+                Barangay Contacts
+            </a>
+
             <!-- Common Menu Items -->
             <div class="mt-8 px-4">
                 <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Account</h3>

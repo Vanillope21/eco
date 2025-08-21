@@ -72,14 +72,9 @@ class BarangayManagement extends Component
         $this->editingBarangayId = $barangay->id;
         $this->name = $barangay->name;
         $this->description = $barangay->description;
-        $this->location = $barangay->location;
         $this->address = $barangay->address;
         $this->latitude = $barangay->latitude;
         $this->longtitude = $barangay->longitude;
-        $this->contact_firstname = $barangay->contact_firstname;
-        $this->contact_lastname = $barangay->contact_lastname;
-        $this->contact_number = $barangay->contact_number;
-        $this->email = $barangay->email;
         $this->status = $barangay->status;
 
         $this->captains = user::whereHas('role', function($q){
@@ -94,14 +89,9 @@ class BarangayManagement extends Component
         $this->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'location' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
-            'contact_firstname' => 'required|string|max:255',
-            'contact_lastname' => 'required|string|max:255',
-            'contact_number' => 'required|string|max:20',
-            'email' => 'nullable|email|max:255',
             'status' => 'required|in:active,inactive',
             'captain_id' => 'nullable|exists:users,id'
         ]);
@@ -109,14 +99,9 @@ class BarangayManagement extends Component
         $data = $this->only([
             'name',
             'description',
-            'location',
             'address',
             'latitude',
             'longitude',
-            'contact_firstname',
-            'contact_lastname',
-            'contact_number',
-            'email',
             'status',
             'captain_id',
         ]);
@@ -146,8 +131,8 @@ class BarangayManagement extends Component
 
     public function view($id)
     {
-        //$this->viewBarangay = Barangay::with('captain')->findOrFail($id);
-        $this->viewBarangay = Barangay::findOrFail($id);
+        $this->viewBarangay = Barangay::with(['captain', 'contacts'])->findOrFail($id);
+        //$this->viewBarangay = Barangay::findOrFail($id);
         $this->showViewModal = true;
     }
 
@@ -168,14 +153,9 @@ class BarangayManagement extends Component
         $this->editingBarangayId = null;
         $this->name = '';
         $this->description = '';
-        $this->location = '';
         $this->address = '';
         $this->latitude = '';
         $this->longtitude = '';
-        $this->contact_firstname = '';
-        $this->contact_lastname = '';
-        $this->contact_number = '';
-        $this->email = '';
         $this->status = 'active';
         $this->captain_id = null;
 
