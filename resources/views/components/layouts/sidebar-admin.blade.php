@@ -118,7 +118,7 @@
                         <a href="{{ route('admin.truck.route.assignment') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Assign Routes
                         </a>
-                        <a href="#" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                        <a href="{{ route('admin.truck-route-history') }}" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200">
                             Route History
                         </a>
                     </div>

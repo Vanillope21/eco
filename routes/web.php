@@ -159,6 +159,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.truck-maintenance');
     Route::get('/admin/live-location', LiveLocation::class)
         ->name('admin.live-location');
+    Route::get('/admin/truck-route-history', \App\Livewire\Admin\TruckRouteHistory::class)
+        ->name('admin.truck-route-history');
 });
 
 
