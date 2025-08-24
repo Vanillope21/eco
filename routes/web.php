@@ -16,6 +16,7 @@ use App\Livewire\Resident\Schedules;
 use App\Livewire\Admin\TruckScheduleManager;
 use App\Livewire\Admin\CollectionManager;
 use App\Livewire\Admin\LiveLocation;
+use App\Livewire\Admin\BarangayOfficials;
 
 Route::get('/', function () {
     return view('welcome');
@@ -161,6 +162,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.live-location');
     Route::get('/admin/truck-route-history', \App\Livewire\Admin\TruckRouteHistory::class)
         ->name('admin.truck-route-history');
+    Route::get('/admin/barangay-officials', BarangayOfficials::class)
+        ->name('admin.barangay-officials');
+    Route::get('/admin/barangay-official-accounts', \App\Livewire\Admin\BarangayOfficialAccounts::class)
+        ->name('admin.barangay-official-accounts');
 });
 
 

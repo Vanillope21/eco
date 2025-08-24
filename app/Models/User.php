@@ -20,6 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'employee_id',
+        'barangay_official_id',
         'household_id',
         'first_name',
         'last_name',
@@ -205,6 +206,11 @@ class User extends Authenticatable
     public function barangayAsCaptain()
     {
         return $this->hasOne(Barangay::class, 'captain_id');
+    }
+
+    public function barangayOfficial()
+    {
+        return $this->belongsTo(BarangayOfficial::class, 'barangay_official_id');
     }
 
 }
