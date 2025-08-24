@@ -10,33 +10,36 @@ class TrucksTableSeeder extends Seeder
 {
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+
+        DB::table('trucks')->truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
         DB::table('trucks')->insert([
             [
                 'plate_number' => 'ABC-1234',
+                'driver_last_name' => 'Dela Cruz',
+                'driver_first_name' => 'Juan',
                 'model' => 'Isuzu Elf',
-                'capacity' => 3,
-                'driver_name' => 'Juan Dela Cruz',
                 'contact_number' => '09171234567',
                 'status' => 'active',
-                'notes' => 'Main truck for Barangay 1',
             ],
             [
                 'plate_number' => 'XYZ-5678',
+                'driver_last_name' => 'Santos',
+                'driver_first_name' => 'Maria',
                 'model' => 'Fuso Canter',
-                'capacity' => 4,
-                'driver_name' => 'Maria Santos',
                 'contact_number' => '09179876543',
                 'status' => 'active',
-                'notes' => 'Backup truck',
             ],
             [
                 'plate_number' => 'LMN-2468',
+                'driver_last_name' => 'Reyes',
+                'driver_first_name' => 'Pedro',
                 'model' => 'Hyundai HD65',
-                'capacity' => 2.5,
-                'driver_name' => 'Pedro Reyes',
                 'contact_number' => '09175551234',
                 'status' => 'inactive',
-                'notes' => 'Under maintenance',
             ],
         ]);
     }

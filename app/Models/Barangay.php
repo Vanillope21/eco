@@ -10,14 +10,14 @@ class Barangay extends Model
     use HasFactory;
 
     protected $fillable = [
+        'parent_id', //main barangay
         'name',
         'description',
-        'location',
-        'contact_firstname',
-        'contact_lastname',
-        'contact_number',
-        'email',
+        'address',
+        'latitude',
+        'longitude',
         'status',
+        'captain_id',
     ];
 
     public function householdRequests()
@@ -33,6 +33,21 @@ class Barangay extends Model
     public function schedules()
     {
         return $this->hasMany(Schedule::class);
+    }
+
+    public function truckRoutes()
+    {
+        return $this->hasMany(\App\Models\TruckRoute::class);
+    }
+
+    public function captain()
+    {
+        return $this->belongsTo(User::class, 'captain_id');
+    }
+
+    public function contacts()
+    {
+        return $this->hasMany(\App\Models\BarangayContact::class);
     }
 
     /**
